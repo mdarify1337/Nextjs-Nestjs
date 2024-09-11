@@ -1,0 +1,25 @@
+### POST REQUEST TO CREATE USER
+POST http://localhost:3001/api/user
+Content-Type: application/json
+
+{
+  "firstName": "l2Mohamed13-37",
+  "lastName": "l1Darify13-37",
+  "providerId": 1337,
+  "provider": "google",
+  "username": "l52Sdarify1337",
+  "email": "Msdarify4513-3f7@gmail.com",
+  "picture": "http://google.com/picture.jpg"
+}
+
+### GET  ALL USERS IN DATABASE 
+GET http://localhost:3001/api/user/all
+
+### GET USER BY ID
+GET http://localhost:3001/api/user/id/e387a4c8-8b5f-4a18-bbe2-dad715b614d0
+
+### GET USER BY ID
+GET http://localhost:3001/api/user/email/darify1337@gmail.com
+
+### 
+GET http://localhost:3001/api/user/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IkRhcmlmeSIsImxhc3ROYW1lIjoiTW9oYW1lZCIsInVzZXJuYW1lIjoiTW9oYW1lZCBEYXJpZnkiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJnb29nbGVUb2tlbiI6bnVsbCwiaWQiOiJlMzg3YTRjOC04YjVmLTRhMTgtYmJlMi1kYWQ3MTViNjE0ZDAiLCJjcmVhdGVkQXQiOiIyMDI0LTA5LTExVDEwOjU5OjU0Ljc3MFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTA5LTExVDEwOjU5OjU0Ljc3MFoifSwicHJvdmlkZXIiOiJnb29nbGUiLCJpYXQiOjE3MjYwNTIzOTQsImV4cCI6MTcyNjA3MDM5NH0.p8aEFTbH-NkuSRk-kHKo8N8x8yxg0uMlUYjLAS7inqI

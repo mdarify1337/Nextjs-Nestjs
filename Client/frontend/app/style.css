@@ -1,0 +1,9 @@
+
+
+
+.backgroundbody {
+    background-image: url('../image/darify.jpg');
+    background-size: cover; /* Ensures the image covers the entire area */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; 
+}
