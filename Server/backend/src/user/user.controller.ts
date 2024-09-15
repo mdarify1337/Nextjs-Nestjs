@@ -5,6 +5,8 @@ import {
     Param, 
     ParseUUIDPipe, 
     Post, 
+    Req, 
+    Res, 
     UseFilters, 
     UseGuards, 
     UsePipes,
@@ -15,7 +17,7 @@ import { CreateUserDto } from './dto/create.user.dto';
 import { AuthGuard } from '@nestjs/passport'; 
 
 @Controller('user')
-// @ApiTags('user')
+@ApiTags('user')
 export class UserController {
   
     constructor(
@@ -40,32 +42,29 @@ export class UserController {
         type: CreateUserDto
       })
     @UsePipes(ValidationPipe)
-      async createUser(@Body() createUserDto: CreateUserDto) {
+    async createUser(@Body() createUserDto: CreateUserDto) {
       return this.userService.findOrcreateUser(createUserDto);
     }
 
-
     @Get('all')
     @UseGuards(UseGuards)
-     findAll() {
+    findAll() {
       return  this.userService.findAllUsers();
     }
 
     
-    @Get(':accessToken')
+    @Get('accessToken/:accessToken')
     @UseGuards(UseGuards)
-    async decodeAccessToke(@Param('accessToken') accessToken:string){
-      return this.userService.decodetAccessToken(accessToken);
+    async decodeAccessToke(@Req() req){
+      return this.userService.decodetAccessToken(req);
     }
-
+    
     @Get('id/:id')
-    // @UseGuards(UseGuards)
+    @UseGuards(UseGuards)
     async findUser(@Param('id') id: string) {
-      console.log('check user request ',id);
-      return await this.userService.viewUser(id);
+        return  this.userService.viewUser(id);
     }
-
-
+    
     @Get('email/:email')
     @UseGuards(UseGuards)
     async findUserByEmail(@Param('email') email: string) {

@@ -19,6 +19,7 @@ const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./user.entity");
 const axios_1 = require("@nestjs/axios");
 const jwt_1 = require("@nestjs/jwt");
+const google_auth_library_1 = require("google-auth-library");
 let UserService = class UserService {
     constructor(userRepository, http, jwtService) {
         this.userRepository = userRepository;
@@ -80,14 +81,42 @@ let UserService = class UserService {
         };
         return this.jwtService.signAsync(payload);
     }
-    async decodetAccessToken(accessToken) {
+    getCookie(cookieName, cookies) {
+        const array = cookies.split(';');
+        for (let index = 0; index < array.length; index++) {
+            const cookie = array[index];
+            if (cookies.startsWith(cookieName + '=')) {
+                return cookies.substring(cookieName.length + 1);
+            }
+        }
+        return null;
+    }
+    async getGoogleProfile(token) {
+        const client = new google_auth_library_1.OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        return payload;
+    }
+    async decodetAccessToken(request) {
+        let cookie = request.cookies['access_token'];
+        let validcookie = 'access_token=' + cookie;
+        const authToken = this.getCookie('access_token', validcookie);
+        if (!authToken) {
+            console.error('Access token not found in cookies or Authorization header');
+            throw new Error('Unauthorized: No access token provided');
+        }
         try {
-            console.log('accessTOken ', accessToken);
-            const authTokenPayload = await this.jwtService.verify(accessToken);
+            const authTokenPayload = await this.jwtService.verifyAsync(authToken, {
+                secret: process.env.GOOGLE_SECRET,
+            });
             return authTokenPayload;
         }
         catch (error) {
-            console.error('Error decoding access token:', error);
+            console.error('Error decoding token:', error);
+            throw new Error('Invalid token');
         }
     }
 };

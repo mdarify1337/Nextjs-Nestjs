@@ -5,7 +5,7 @@ export declare class UserController {
     constructor(userService: UserService);
     createUser(createUserDto: CreateUserDto): Promise<any>;
     findAll(): Promise<import("./user.entity").User[]>;
-    decodeAccessToke(accessToken: string): Promise<any>;
+    decodeAccessToke(req: any): Promise<any>;
     findUser(id: string): Promise<import("./user.entity").User>;
     findUserByEmail(email: string): Promise<import("./user.entity").User>;
 }

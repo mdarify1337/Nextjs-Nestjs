@@ -5,7 +5,7 @@ import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { GoogleStrategy } from '../google.strategy';
+import { GoogleStrategy } from '../Strategy/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from '../Configuration/google.config';
 
@@ -18,8 +18,8 @@ import googleOauthConfig from '../Configuration/google.config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('GOOGLE_SECRET'), // Dynamically get secret
-        signOptions: { expiresIn: '5h' },
+        secret: configService.get<string>('GOOGLE_SECRET'), 
+        signOptions: { expiresIn: '24h' },
       }),
     }),
   ],

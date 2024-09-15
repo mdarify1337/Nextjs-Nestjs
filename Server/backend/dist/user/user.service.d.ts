@@ -12,5 +12,7 @@ export declare class UserService {
     viewUser(id: string): Promise<User | null>;
     viewUserEmail(email: string): Promise<User | null>;
     generateAccessToken(user: any): Promise<string>;
-    decodetAccessToken(accessToken: string): Promise<any>;
+    getCookie(cookieName: string, cookies: string): string;
+    getGoogleProfile(token: string): Promise<any>;
+    decodetAccessToken(request: any): Promise<any>;
 }

@@ -27,12 +27,11 @@ let UserController = class UserController {
     findAll() {
         return this.userService.findAllUsers();
     }
-    async decodeAccessToke(accessToken) {
-        return this.userService.decodetAccessToken(accessToken);
+    async decodeAccessToke(req) {
+        return this.userService.decodetAccessToken(req);
     }
     async findUser(id) {
-        console.log('check user request ', id);
-        return await this.userService.viewUser(id);
+        return this.userService.viewUser(id);
     }
     async findUserByEmail(email) {
         return await this.userService.viewUserEmail(email);
@@ -69,15 +68,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':accessToken'),
+    (0, common_1.Get)('accessToken/:accessToken'),
     (0, common_1.UseGuards)(common_1.UseGuards),
-    __param(0, (0, common_1.Param)('accessToken')),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "decodeAccessToke", null);
 __decorate([
     (0, common_1.Get)('id/:id'),
+    (0, common_1.UseGuards)(common_1.UseGuards),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -93,6 +93,7 @@ __decorate([
 ], UserController.prototype, "findUserByEmail", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
+    (0, swagger_1.ApiTags)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

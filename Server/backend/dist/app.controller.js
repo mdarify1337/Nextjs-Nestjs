@@ -25,11 +25,13 @@ let AppController = class AppController {
     }
     async googlelogin(req) { }
     async googleLoginCallback(req, res) {
-        const user = req.user;
         const firstLogin = req.user.firstLogin;
         const accessToken = req.user.appAccessToken;
         const providerAccessToken = req.user.providerAccessToken;
-        res.redirect(`http://localhost:3000/?firstLogin=${firstLogin}&accessToken=${accessToken}&provider=${providerAccessToken}`);
+        res.cookie('firstLogin', firstLogin);
+        res.cookie('access_token', accessToken);
+        res.cookie('providerAccessToken', providerAccessToken);
+        res.redirect(`http://localhost:3000/`);
     }
 };
 exports.AppController = AppController;

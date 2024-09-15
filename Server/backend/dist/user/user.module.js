@@ -14,7 +14,7 @@ const user_controller_1 = require("./user.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
-const google_strategy_1 = require("../google.strategy");
+const google_strategy_1 = require("../Strategy/google.strategy");
 const config_1 = require("@nestjs/config");
 const google_config_1 = require("../Configuration/google.config");
 let UserModule = class UserModule {
@@ -31,7 +31,7 @@ exports.UserModule = UserModule = __decorate([
                 inject: [config_1.ConfigService],
                 useFactory: async (configService) => ({
                     secret: configService.get('GOOGLE_SECRET'),
-                    signOptions: { expiresIn: '5h' },
+                    signOptions: { expiresIn: '24h' },
                 }),
             }),
         ],

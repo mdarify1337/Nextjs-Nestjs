@@ -5,23 +5,16 @@ import { User } from './user.entity';
 import { HttpService } from '@nestjs/axios';
 import { JwtService } from '@nestjs/jwt';
 import { OAuth2Client } from 'google-auth-library';
-// import { CreateUserDto } from './dto/create.user.dto';
-
-// Initialize OAuth2Client with your Google Client ID
- // Replace with your actual Client ID
-
 
 @Injectable()
 export class UserService {
-    // private readonly oauthClient: OAuth2Client;
-    constructor (
-        @InjectRepository(User) 
+    constructor(
+        @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         private readonly http: HttpService,
         private readonly jwtService: JwtService,
-        
+
     ) {
-        // this.oauthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
     }
 
     async findOrcreateUser(createUser: Partial<User>): Promise<any> {
@@ -36,7 +29,7 @@ export class UserService {
 
         let existingUser = await this.userRepository.findOne({
             where: [
-                { email: user.email }, 
+                { email: user.email },
                 { username: user.username },
                 { firstName: user.firstName },
                 { lastName: user.lastName }
@@ -45,7 +38,7 @@ export class UserService {
 
         if (existingUser) {
             existingUser.googleToken = user.googleToken;
-            const updatedUser = await 
+            const updatedUser = await
                 this.userRepository.save(existingUser);
             console.log('User already exists:', updatedUser);
             return { user: updatedUser, firstLogin: false };
@@ -61,9 +54,10 @@ export class UserService {
     }
 
     async viewUser(id: string): Promise<User | null> {
+        // console.log('Id of user -> :', id)
         try {
             return await this.userRepository.findOne(
-                { where: { id } });
+                { where: { id} });
         } catch (error) {
             console.error('Error fetching user:', error);
             return null;
@@ -73,7 +67,7 @@ export class UserService {
     async viewUserEmail(email: string): Promise<User | null> {
         try {
             return await this.userRepository.findOne(
-                { where: { email} });
+                { where: { email } });
         } catch (error) {
             console.error('Error fetching user:', error);
             return null;
@@ -87,16 +81,46 @@ export class UserService {
         };
         return this.jwtService.signAsync(payload);
     }
-
-    async decodetAccessToken(accessToken: string) {
-        try {
-            console.log('accessTOken ',accessToken)
-            const authTokenPayload = await  this.jwtService.verify(accessToken);
-            return authTokenPayload;
-        } catch (error) {
-            console.error('Error decoding access token:', error);
+    getCookie(cookieName: string, cookies: string): string {
+        const array = cookies.split(';');
+        for (let index = 0; index < array.length; index++) {
+            const cookie = array[index];
+            if (cookies.startsWith(cookieName + '=')) {
+                return cookies.substring(cookieName.length + 1);
+            }
         }
+        return null;
     }
 
+    async getGoogleProfile(token: string): Promise<any> {
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        return payload;
+    }
 
+    async decodetAccessToken(request: any) 
+    {
+        let cookie = request.cookies['access_token'];
+        let validcookie :string = 'access_token=' + cookie;
+        const authToken = this.getCookie('access_token', validcookie);
+        if (!authToken) 
+        {
+            console.error('Access token not found in cookies or Authorization header');
+            throw new Error('Unauthorized: No access token provided');
+        }
+        try {
+            const authTokenPayload = await this.jwtService.verifyAsync(authToken, {
+                secret: process.env.GOOGLE_SECRET,
+            });
+            return authTokenPayload;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            throw new Error('Invalid token');
+        }
+    }
 }
+
