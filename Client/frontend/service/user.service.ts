@@ -36,4 +36,34 @@ export class UserService {
             console.log('Error getuserbyid ', error);
         }
     }
+
+    // async validUserByEmail(values:any) : Promise<any> {
+    //     const email = values.email;
+    //     const username = values.username;
+    //     try {
+    //         const Response = await fetch(`http://localhost:3001/api/users/email/${email}`);
+    //         const validUser = await Response.json();
+    //         if (validUser.exists) {
+    //             console.log('the user already exists');
+    //         } else {
+    //             const SendResponse = await fetch(`http://localhost:3001/api/users`, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type' : 'application/json'
+    //                 },
+    //                 credentials: 'include',
+    //                 body: JSON.stringify({email, username}),
+    //             });
+    //             if (sendResponse.ok) {
+
+    //             }
+    //         }
+    //     } catch(error) {
+    //         console.log('Error getuserby email', error);
+    //         throw new Error('Response Error . please try again');
+    //     }
+    // }
 }
+
+
+

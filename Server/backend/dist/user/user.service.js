@@ -16,15 +16,71 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const signup_entity_1 = require("./signup.entity");
 const user_entity_1 = require("./user.entity");
 const axios_1 = require("@nestjs/axios");
 const jwt_1 = require("@nestjs/jwt");
 const google_auth_library_1 = require("google-auth-library");
+const bcrypt = require("bcrypt");
 let UserService = class UserService {
     constructor(userRepository, http, jwtService) {
         this.userRepository = userRepository;
         this.http = http;
         this.jwtService = jwtService;
+    }
+    async createUser(createUserDto) {
+        const { username, email, password, confirmPassword } = createUserDto;
+        if (password !== confirmPassword) {
+            throw new common_1.BadRequestException('Passwords do not match');
+        }
+        let existUser = await this.userRepository.findOne({
+            where: { email: email },
+        });
+        if (existUser) {
+            const updatesignup = await this.userRepository.save(existUser);
+            console.log('updatesignup -> ', updatesignup);
+            return { user: updatesignup, firstLogin: false };
+        }
+        const user = new signup_entity_1.CreateSignUpUser();
+        user.email = email;
+        user.username = username;
+        user.password = password;
+        user.confirmPassword = undefined;
+        console.log('signup user -> ', user);
+        try {
+            const object = await this.userRepository.save(user);
+            console.log('object -> ', object);
+            return { user: object, firstLogin: true };
+        }
+        catch (error) {
+            console.log('error create user with singup -> ', error);
+        }
+    }
+    async signIn(signInDto) {
+        const { email, password } = signInDto;
+        const user = await this.userRepository.findOne({
+            where: { email: email },
+        });
+        if (!user) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        console.log('Plain Password:', password);
+        console.log('Hashed Password from DB:', user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        const payload = { email: user.email, sub: user.id };
+        const token = this.jwtService.sign(payload);
+        return {
+            message: 'Login successful',
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+            },
+        };
     }
     async findOrcreateUser(createUser) {
         const user = new user_entity_1.User();
@@ -34,7 +90,6 @@ let UserService = class UserService {
         user.email = createUser.email;
         user.picture = createUser.picture;
         user.provider = createUser.provider;
-        user.googleToken = createUser.googleToken;
         let existingUser = await this.userRepository.findOne({
             where: [
                 { email: user.email },
@@ -43,15 +98,20 @@ let UserService = class UserService {
                 { lastName: user.lastName }
             ],
         });
+        console.log('createuserbyemail -> ', createUser.email);
         if (existingUser) {
-            existingUser.googleToken = user.googleToken;
             const updatedUser = await this.userRepository.save(existingUser);
             console.log('User already exists:', updatedUser);
             return { user: updatedUser, firstLogin: false };
         }
-        const object = await this.userRepository.save(user);
-        console.log('User created:', object);
-        return { user: object, firstLogin: true };
+        try {
+            const object = await this.userRepository.save(user);
+            console.log('User created:', object);
+            return { user: object, firstLogin: true };
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async findAllUsers() {
         return await this.userRepository.find();

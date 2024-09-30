@@ -1,15 +1,40 @@
-### POST REQUEST TO CREATE USER
+### POST REQUEST TO CREATE USER WITH GOOGLE AUTHENTICATION
 POST http://localhost:3001/api/user
 Content-Type: application/json
 
+ {
+    "id": "7ed29149-6293-4dcc-b937-2f694c52af13",
+    "createdAt": "2024-09-28T10:31:07.305Z",
+    "updatedAt": "2024-09-28T10:31:07.305Z",
+    "firstName": "l2Mohamed13-37",
+    "lastName": "l1Darify13-37",
+    "picture": "http://google.com/picture.jpg",
+    "provider": "google",
+    "email": "Msdarify4513-3f7@gmail.com",
+    "username": "l52Sdarify1337"
+  }
+
+
+
+### POST REQUEST TO CREATE USER WITH SIGN UP
+POST http://localhost:3001/api/user/signup
+Content-Type:  application/json
+
 {
-  "firstName": "l2Mohamed13-37",
-  "lastName": "l1Darify13-37",
-  "providerId": 1337,
-  "provider": "google",
-  "username": "l52Sdarify1337",
-  "email": "Msdarify4513-3f7@gmail.com",
-  "picture": "http://google.com/picture.jpg"
+  "username": "ijmari",
+  "email": "ijmari1337@gmail.com",
+  "password": "Ijmari1337@",
+  "confirmPassword": "Ijmari1337@"
+}
+
+
+### POST REQUEST TO SIGN IN OF USER
+POST  http://localhost:3001/api/user/signin
+Content-Type: application/json
+
+{
+  "email": "ijmari1337@gmail.com",
+  "password": "Ijmari1337@"
 }
 
 ### GET  ALL USERS IN DATABASE 
@@ -22,5 +47,5 @@ GET http://localhost:3001/api/user/id/322f7886-91dc-4052-bcb8-763f71627fc8
 GET http://localhost:3001/api/user/email/darify1337@gmail.com
 
 ### GET USER BY TOKEN
-GET http://localhost:3001/api/user/accessToken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMzIyZjc4ODYtOTFkYy00MDUyLWJjYjgtNzYzZjcxNjI3ZmM4IiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0xNFQxMDoxODozNS42NjFaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0xNFQxMDoxODozNS42NjFaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNjM4NDk3OSwiZXhwIjoxNzI2NDcxMzc5fQ.Z6pINwmUmoHXL2KafeBqph9WOmtC8LuRzua8zzICbKM
-Cookie: access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMzIyZjc4ODYtOTFkYy00MDUyLWJjYjgtNzYzZjcxNjI3ZmM4IiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0xNFQxMDoxODozNS42NjFaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0xNFQxMDoxODozNS42NjFaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNjM4NDk3OSwiZXhwIjoxNzI2NDcxMzc5fQ.Z6pINwmUmoHXL2KafeBqph9WOmtC8LuRzua8zzICbKM
+GET http://localhost:3001/api/user/accessToken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYjg2ODVjNjMtOWI1OC00NDkwLWIzOGYtM2RiMWJjMzc2ZTVkIiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNzY5NjgxMCwiZXhwIjoxNzI3NzgzMjEwfQ.LcGKz9Jiz8kMygnhze6dsPnF6PT_Z29l26X4dwXwgP4
+Cookie: access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYjg2ODVjNjMtOWI1OC00NDkwLWIzOGYtM2RiMWJjMzc2ZTVkIiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNzY5NjgxMCwiZXhwIjoxNzI3NzgzMjEwfQ.LcGKz9Jiz8kMygnhze6dsPnF6PT_Z29l26X4dwXwgP4

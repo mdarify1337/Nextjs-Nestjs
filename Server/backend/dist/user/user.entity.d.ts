@@ -1,13 +1,13 @@
 export declare class User {
-    id: string;
+    id?: string;
     createdAt: Date;
     updatedAt: Date;
-    firstName: string;
-    lastName: string;
-    picture: string;
-    provider: string;
+    firstName?: string;
+    lastName?: string;
+    picture?: string;
+    provider?: string;
     email: string;
     username: string;
-    googleToken: string;
-    generateUUID(): void;
+    password?: string;
+    generateUUID(): Promise<void>;
 }

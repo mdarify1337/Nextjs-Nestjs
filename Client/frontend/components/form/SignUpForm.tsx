@@ -9,12 +9,13 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import * as z from 'zod';
+import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
+import { redirect } from 'next/navigation';
 // import { Email } from '@mui/icons-material';
 // import { useRouter } from 'next/router';
 // import { toast } from 'react-toastify';
@@ -49,35 +50,47 @@ const SignUpForm = () => {
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
   });
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    // try {
-    //   const UserResponse = await fetch(`http://localhost:3001/api/users/ValidUser/${values.email}`);
-    //   const ValidUser = await UserResponse.json();
-    //   if (ValidUser.exists) {
-    //     toast.info('User already exists. Redirecting to sign-in page...');
-    //     routter.push('/signin');
-    //   } else {
-    //     const createResponse = await fetch('/api/users/register', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(values),
-    //     });
-    //     if (createResponse.ok) {
-    //       toast.success('User created successfully. Redirecting to sign-in page...');
-    //       routter.push('/signin');
-    //     } else {
-    //       throw new Error('Failed to create user. Please try again.');
-    //     }
-    //   }
-    // } catch (error) {
-    //   throw new Error('An error occurred. Please try again.');
-    // }
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/user/email/${values.email}`);
+      console.log('Response -> ', response);
+      const responseText = await response.text();
+      console.log('Response Text -> ', responseText);
+      const validUser = responseText ? JSON.parse(responseText) : null;
+      if (response.ok && validUser) {
+        console.log('validUser -> ', validUser);
+        if (validUser && validUser.email === values.email) {
+          console.log('User already exists. Redirecting to sign-in page...');
+          window.location.href = 'http://localhost:3000/signin';
+          return;
+        }
+      } else if (response.ok && !validUser) {
+        console.log('error2 ->');
+        const createResponse = await fetch(`http://localhost:3001/api/user/signup`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+        console.log('createResponse -> ', createResponse);
+        const createResponseText = await createResponse.text();
+        console.log('Create Response Text -> ', createResponseText);
+        if (createResponse.ok) {
+          console.log('User created successfully. Redirecting to sign-in page...');
+          window.location.href = 'http://localhost:3000/signin';
+        } else {
+          throw new Error('Failed to create user. Please try again.');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      // alert('A Response Error occurred. Please try again.'); 
+    }
+    
   };
   return (
     <Form {...form}>

@@ -12,11 +12,11 @@ import {
     PrimaryColumn,
   } from 'typeorm';
 
+  import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid'
 @Entity('user')
 @Unique(['id', 'email', 'username'])
 export class User {
-
     @PrimaryGeneratedColumn(
             'uuid', 
             { 
@@ -24,7 +24,7 @@ export class User {
                 comment: 'User ID' 
             }
         )
-    id: string;
+    id?: string;
     
     @CreateDateColumn()
     createdAt: Date;
@@ -32,31 +32,35 @@ export class User {
     @UpdateDateColumn()
     updatedAt: Date;
   
-    @Column()
-    firstName: string;
+    @Column({ nullable: true})
+    firstName?: string;
   
-    @Column()
-    lastName: string;
+    @Column({ nullable: true})
+    lastName?: string;
   
-    @Column()
-    picture: string;
+    @Column({ nullable: true})
+    picture?: string;
   
 
-    @Column({nullable: false})
-    provider: string;
+    @Column({nullable: true})
+    provider?: string;
   
     @Column({ unique: true })
     email: string;
   
     @Column({ unique: true })
     username: string;
-    
+
     @Column({ nullable: true })
-    googleToken: string;
+    password?: string;
+
 
     @BeforeInsert()
-    generateUUID() {
-      this.id = uuidv4();
+    async generateUUID() {
+      if (this.password)
+        this.password = await bcrypt.hash(this.password, 10);
+      if (!this.id)
+        this.id = uuidv4();
     }
-    
+
   }

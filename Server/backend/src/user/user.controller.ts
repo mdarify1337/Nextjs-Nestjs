@@ -15,6 +15,8 @@ import { UserService } from './user.service';
 import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create.user.dto';
 import { AuthGuard } from '@nestjs/passport'; 
+import { userSignUpDto } from './dto/create.signup';
+import { userSignInDto } from './dto/create.signin.dto';
 
 @Controller('user')
 @ApiTags('user')
@@ -44,6 +46,17 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async createUser(@Body() createUserDto: CreateUserDto) {
       return this.userService.findOrcreateUser(createUserDto);
+    }
+
+    @Post('signup')
+    @UsePipes(new ValidationPipe({ whitelist: true }))
+    async signup(@Body() createUserDto: userSignUpDto) {
+      return this.userService.createUser(createUserDto);
+    }
+
+    @Post('signin')
+    async signIn(@Body() signInDto: userSignInDto) {
+      return this.userService.signIn(signInDto);
     }
 
     @Get('all')

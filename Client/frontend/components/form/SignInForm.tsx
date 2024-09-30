@@ -33,8 +33,45 @@ function SignInForm () {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
+  const onSubmit =  async (values: z.infer<typeof FormSchema>) => {
     console.log(values);
+    try {
+      const response = await fetch(`http://localhost:3001/api/user/email/${values.email}`);
+      console.log('Response -> ', response);
+      const responseText = await response.text();
+      console.log('Response Text -> ', responseText);
+      const validUser = responseText ? JSON.parse(responseText) : null;
+      if (response.ok && validUser) {
+        console.log('validUser -> ', validUser);
+        if (validUser && validUser.email === values.email) {
+          console.log('User already exists. Redirecting to sign-in page...');
+          // window.location.href = 'http://localhost:3000/signin';
+          return;
+        }
+      } else if (response.ok && !validUser) {
+        console.log('error2 ->');
+        const createResponse = await fetch(`http://localhost:3001/api/user/signin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+        console.log('createResponse -> ', createResponse);
+        const createResponseText = await createResponse.text();
+        console.log('Create Response Text -> ', createResponseText);
+        if (createResponse.ok) {
+          console.log('User created successfully. Redirecting to sign-in page...');
+          // window.location.href = 'http://localhost:3000/signin';
+        } else {
+          throw new Error('Failed to create user. Please try again.');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      // alert('A Response Error occurred. Please try again.'); 
+    }
+    // const createResponseText = await createResponse.text();
   };
 
   return (

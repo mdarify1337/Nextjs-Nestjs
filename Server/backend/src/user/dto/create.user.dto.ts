@@ -14,18 +14,18 @@ export class CreateUserDto {
     @IsString()
     @MinLength(4)
     @IsNotEmpty()
-    firstName: string;
+    firstName?: string;
 
     @IsString()
     @MinLength(4)
     @IsNotEmpty()
-    lastName: string;
+    lastName?: string;
 
 
     @IsString()
     @MinLength(1)
     @IsNotEmpty()
-    provider: string;
+    provider?: string;
 
     @IsString()
     @MinLength(4)
@@ -39,8 +39,7 @@ export class CreateUserDto {
     @IsString()
     @MinLength(4)
     @IsNotEmpty()
-    picture: string;
-
+    picture?: string;
 
 	static email: string | FindOperator<string>;
 	static username: string | FindOperator<string>;
