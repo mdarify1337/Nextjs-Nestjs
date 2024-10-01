@@ -13,6 +13,7 @@ import {
     PrimaryColumn,
   } from 'typeorm';
 
+@Entity('SignUp')
 export class CreateSignUpUser {
     @Column({ unique: true })
     email: string;

@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, Injectable, UnauthorizedExcepti
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSignUpUser } from './signup.entity';
-import {User } from './user.entity'
+import { User } from './user.entity'
 import { HttpService } from '@nestjs/axios';
 import { JwtService } from '@nestjs/jwt';
 import { OAuth2Client } from 'google-auth-library';
@@ -17,18 +17,24 @@ export class UserService {
         private readonly userRepository: Repository<User>,
         private readonly http: HttpService,
         private readonly jwtService: JwtService,
-
     ) {
     }
 
+    async validateUser(email: string, password: string): Promise<User | null> {
+        const user = await this.userRepository.findOne({ where: { email } });
+        if (user && user.password && await bcrypt.compare(password, user.password)) {
+            return user;
+        }
+        return null;
+    }
+
     async createUser(createUserDto: Partial<CreateSignUpUser>):Promise<any> {
+        console.log('user dkhal hna 1')
         const {username, email, password, confirmPassword } = createUserDto;
     
         if (password !== confirmPassword) {
           throw new BadRequestException('Passwords do not match');
         }
-    
-        
         let existUser = await this.userRepository.findOne({
             where : {email: email},
         })
@@ -40,7 +46,7 @@ export class UserService {
         const user = new CreateSignUpUser();
         user.email = email;
         user.username = username;
-        user.password = password ;
+        user.password = await bcrypt.hash(password, 10);
         user.confirmPassword = undefined;
         console.log('signup user -> ', user);
         try {
@@ -53,20 +59,22 @@ export class UserService {
     }
     
     async signIn(signInDto: userSignInDto) {
+        console.log('user dkhal hna 2');
         const { email, password } = signInDto;
-        const user = await this.userRepository.findOne({
-          where: { email: email },
-        });
+        console.log('signInDto -> ',signInDto)
+        const user = await this.validateUser(email, password);
+        console.log('user -> ', user)
         if (!user) {
           throw new UnauthorizedException('Invalid credentials');
         }
-        console.log('Plain Password:', password);
-        console.log('Hashed Password from DB:', user.password);
+        console.log('Plain Password:', password, password.length);
+        console.log('Hashed Password from DB:', user.password, user.password.length);
         const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        console.log('isPasswordValid -> ', isPasswordValid)
         if (!isPasswordValid) {
           throw new UnauthorizedException('Invalid credentials');
         }
-    
         // Optional: If using JWT, generate a token
         const payload = { email: user.email, sub: user.id };
         const token = this.jwtService.sign(payload);
@@ -80,7 +88,8 @@ export class UserService {
             username: user.username,
           },
         };
-      }
+
+    }
 
     async findOrcreateUser(createUser: Partial<User>): Promise<any> {
         const user: User = new User();
@@ -90,6 +99,7 @@ export class UserService {
         user.email = createUser.email;
         user.picture = createUser.picture;
         user.provider = createUser.provider;
+        user.password = createUser.password;
         let existingUser = await this.userRepository.findOne({
             where: [
                 { email: user.email },

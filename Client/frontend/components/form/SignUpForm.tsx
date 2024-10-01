@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import * as z from 'zod'
+import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
@@ -64,7 +64,7 @@ const SignUpForm = () => {
         console.log('validUser -> ', validUser);
         if (validUser && validUser.email === values.email) {
           console.log('User already exists. Redirecting to sign-in page...');
-          window.location.href = 'http://localhost:3000/signin';
+          // window.location.href = 'http://localhost:3000/signin';
           return;
         }
       } else if (response.ok && !validUser) {
@@ -81,7 +81,7 @@ const SignUpForm = () => {
         console.log('Create Response Text -> ', createResponseText);
         if (createResponse.ok) {
           console.log('User created successfully. Redirecting to sign-in page...');
-          window.location.href = 'http://localhost:3000/signin';
+          // window.location.href = 'http://localhost:3000/signin';
         } else {
           throw new Error('Failed to create user. Please try again.');
         }

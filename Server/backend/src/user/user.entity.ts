@@ -10,6 +10,7 @@ import {
     JoinTable,
     BeforeInsert,
     PrimaryColumn,
+    BeforeUpdate,
   } from 'typeorm';
 
   import * as bcrypt from 'bcrypt';
@@ -56,11 +57,19 @@ export class User {
 
 
     @BeforeInsert()
-    async generateUUID() {
-      if (this.password)
-        this.password = await bcrypt.hash(this.password, 10);
-      if (!this.id)
-        this.id = uuidv4();
+    async hashPassword() {
+        // Ensure password is hashed before insertion
+        if (this.password) {
+            this.password = await bcrypt.hash(this.password, 10);
+        }
     }
+
+    @BeforeInsert()
+    generateUUID() {
+        if (!this.id) {
+            this.id = uuidv4();
+        }
+    }
+
 
   }

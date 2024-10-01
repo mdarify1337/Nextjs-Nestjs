@@ -34,7 +34,8 @@ function SignInForm () {
   });
 
   const onSubmit =  async (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+    console.log('data of signin user' ,values);
+    
     try {
       const response = await fetch(`http://localhost:3001/api/user/email/${values.email}`);
       console.log('Response -> ', response);
@@ -44,36 +45,32 @@ function SignInForm () {
       if (response.ok && validUser) {
         console.log('validUser -> ', validUser);
         if (validUser && validUser.email === values.email) {
-          console.log('User already exists. Redirecting to sign-in page...');
-          // window.location.href = 'http://localhost:3000/signin';
+          const createResponse = await fetch(`http://localhost:3001/api/user/signin`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+          });
+          console.log('createResponse -> ', createResponse);
+          const createResponseText = await createResponse.text();
+          console.log('Create Response Text -> ', createResponseText);
+          if (createResponse.ok) {
+            console.log('User created successfully. Redirecting to sign-in page...');
+            // window.location.href = 'http://localhost:3000/signin';
+          } else {
+            console.log('Failed to create user. Please try again.');
+          }
           return;
         }
       } else if (response.ok && !validUser) {
-        console.log('error2 ->');
-        const createResponse = await fetch(`http://localhost:3001/api/user/signin`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        });
-        console.log('createResponse -> ', createResponse);
-        const createResponseText = await createResponse.text();
-        console.log('Create Response Text -> ', createResponseText);
-        if (createResponse.ok) {
-          console.log('User created successfully. Redirecting to sign-in page...');
-          // window.location.href = 'http://localhost:3000/signin';
-        } else {
-          throw new Error('Failed to create user. Please try again.');
-        }
-      }
+          console.log('invalid data, pleast enter a valid data')
+      } 
     } catch (error) {
       console.log(error);
-      // alert('A Response Error occurred. Please try again.'); 
     }
-    // const createResponseText = await createResponse.text();
   };
-
+  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
