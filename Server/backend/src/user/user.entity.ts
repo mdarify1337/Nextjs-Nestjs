@@ -13,7 +13,7 @@ import {
     BeforeUpdate,
   } from 'typeorm';
 
-  import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid'
 @Entity('user')
 @Unique(['id', 'email', 'username'])
@@ -55,6 +55,8 @@ export class User {
     @Column({ nullable: true })
     password?: string;
 
+    @Column({nullable: true})
+    confirmPassword?: string;
 
     @BeforeInsert()
     async hashPassword() {

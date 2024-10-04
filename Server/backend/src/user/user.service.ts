@@ -1,13 +1,13 @@
 import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateSignUpUser } from './signup.entity';
+import { CreateSignUpUser } from '../userform/signup.entity';
 import { User } from './user.entity'
 import { HttpService } from '@nestjs/axios';
 import { JwtService } from '@nestjs/jwt';
 import { OAuth2Client } from 'google-auth-library';
 import { CreateUserDto } from './dto/create.user.dto';
-import { userSignUpDto } from './dto/create.signup';
+import { userSignUpDto } from './dto/create.signup.dto';
 import * as bcrypt from 'bcrypt';
 import { userSignInDto } from './dto/create.signin.dto';
 @Injectable()
@@ -20,21 +20,15 @@ export class UserService {
     ) {
     }
 
-    async validateUser(email: string, password: string): Promise<User | null> {
-        const user = await this.userRepository.findOne({ where: { email } });
-        if (user && user.password && await bcrypt.compare(password, user.password)) {
-            return user;
-        }
-        return null;
-    }
-
-    async createUser(createUserDto: Partial<CreateSignUpUser>):Promise<any> {
-        console.log('user dkhal hna 1')
+    async createUser(createUserDto: Partial<User>):Promise<any> {
+        console.log('user dkhal hna 1.1')
         const {username, email, password, confirmPassword } = createUserDto;
-    
+        console.log('userdto -> ',createUserDto)
         if (password !== confirmPassword) {
           throw new BadRequestException('Passwords do not match');
         }
+    
+        
         let existUser = await this.userRepository.findOne({
             where : {email: email},
         })
@@ -52,23 +46,27 @@ export class UserService {
         try {
             const object =  await this.userRepository.save(user);
             console.log('object -> ', object);
-            return {user: object, firstLogin: true};
+            return {user: object,firstLogin: true};
         } catch(error) {
             console.log('error create user with singup -> ',error)
         }
     }
     
     async signIn(signInDto: userSignInDto) {
-        console.log('user dkhal hna 2');
+        console.log('user dkhal hna 2.1');
         const { email, password } = signInDto;
         console.log('signInDto -> ',signInDto)
-        const user = await this.validateUser(email, password);
+        const user = await this.userRepository.findOne({
+          where: { email: email },
+        });
         console.log('user -> ', user)
         if (!user) {
           throw new UnauthorizedException('Invalid credentials');
         }
         console.log('Plain Password:', password, password.length);
         console.log('Hashed Password from DB:', user.password, user.password.length);
+        const hashPassword = await bcrypt.hash(user.password, 10);
+        console.log('hashed password -> ', hashPassword);
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         console.log('isPasswordValid -> ', isPasswordValid)
@@ -86,6 +84,7 @@ export class UserService {
             id: user.id,
             email: user.email,
             username: user.username,
+            password: user.password,
           },
         };
 
@@ -126,6 +125,7 @@ export class UserService {
     }
 
     async findAllUsers(): Promise<User[]> {
+        console.log('all users  from db -> ',await this.userRepository.find());
         return await this.userRepository.find();
     }
 
@@ -198,5 +198,10 @@ export class UserService {
             throw new Error('Invalid token');
         }
     }
+
+    async getUsersSortedByUsername(): Promise<User[]> {
+        const users = await this.userRepository.find();
+        return users.sort((a, b) => a.username.localeCompare(b.username));
+      }
 }
 

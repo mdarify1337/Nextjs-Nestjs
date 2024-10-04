@@ -9,6 +9,8 @@ import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from './Configuration/google.config'
+import { CreateSignUpUser } from './userform/signup.entity';
+import { SignUpModule } from './userform/signup.module';
 
 @Module({
   imports: [
@@ -23,12 +25,12 @@ import googleOauthConfig from './Configuration/google.config'
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User],
+      entities: [User, CreateSignUpUser],
       synchronize: true,
       autoLoadEntities: true
     }),
-    
     UserModule,
+    SignUpModule,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],

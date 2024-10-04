@@ -41,6 +41,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     picture?: string;
 
+    password?:string;
+    confirmPassword?: string;
+
 	static email: string | FindOperator<string>;
 	static username: string | FindOperator<string>;
 

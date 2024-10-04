@@ -57,7 +57,7 @@ function SignInForm () {
           console.log('Create Response Text -> ', createResponseText);
           if (createResponse.ok) {
             console.log('User created successfully. Redirecting to sign-in page...');
-            // window.location.href = 'http://localhost:3000/signin';
+            window.location.href = 'http://localhost:3000/profile';
           } else {
             console.log('Failed to create user. Please try again.');
           }

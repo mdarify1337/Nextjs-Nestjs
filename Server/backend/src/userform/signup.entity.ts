@@ -13,9 +13,23 @@ import {
     PrimaryColumn,
   } from 'typeorm';
 
-@Entity('SignUp')
+import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid'
+
+@Entity('')
+@Unique(['email', 'username'])
 export class CreateSignUpUser {
-    @Column({ unique: true })
+
+    @PrimaryGeneratedColumn(
+        'uuid', 
+        { 
+            name: 'id', 
+            comment: 'User ID' 
+        }
+    )
+    id?: string;
+
+    @Column()
     email: string;
   
     @Column({ unique: true })
@@ -30,8 +44,20 @@ export class CreateSignUpUser {
 
     @IsString()
     @IsNotEmpty({ message: 'Confirm password is required' })
-    confirmPassword: string;
+    confirmPassword?: string;
+    
 
-    // @Column({ default: '' })
-    // firstName?: string;
+    @BeforeInsert()
+    async hashPassword() {
+        if (this.password) {
+            this.password = await bcrypt.hash(this.password, 10);
+        }
+    }
+
+    @BeforeInsert()
+    generateUUID() {
+        if (!this.id) {
+            this.id = uuidv4();
+        }
+    }
 }

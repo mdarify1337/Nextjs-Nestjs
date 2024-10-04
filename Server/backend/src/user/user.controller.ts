@@ -15,8 +15,9 @@ import { UserService } from './user.service';
 import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create.user.dto';
 import { AuthGuard } from '@nestjs/passport'; 
-import { userSignUpDto } from './dto/create.signup';
+import { userSignUpDto } from './dto/create.signup.dto'
 import { userSignInDto } from './dto/create.signin.dto';
+import { User } from './user.entity';
 
 @Controller('user')
 @ApiTags('user')
@@ -84,7 +85,10 @@ export class UserController {
       return await this.userService.viewUserEmail(email);
     }
 
-    
+    @Get('sorted')
+    async getUsersSortedByUsername(): Promise<User[]> {
+      return this.userService.getUsersSortedByUsername();
+    }
 
 
 }

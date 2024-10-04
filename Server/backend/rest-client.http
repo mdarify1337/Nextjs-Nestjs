@@ -18,13 +18,17 @@ Content-Type: application/json
 
 ### POST REQUEST TO CREATE USER WITH SIGN UP
 POST http://localhost:3001/api/user/signup
-Content-Type:  application/json
+Content-Type: application/json
 
 {
-  "username": "ijmari",
-  "email": "ijmari1337@gmail.com",
-  "password": "Ijmari1337@",
-  "confirmPassword": "Ijmari1337@"
+  "firstName": "khalil",
+  "lastName" :"id_13",
+  "provider": "signup",
+  "picture" : "www.google.com",
+  "username": "khalild_",
+  "email": "khallidl1_1337@gmail.com",
+  "password": "Darify1337@",
+  "confirmPassword": "Darify1337@"
 }
 
 
@@ -33,8 +37,8 @@ POST  http://localhost:3001/api/user/signin
 Content-Type: application/json
 
 {
-  "email": "ijmari1337@gmail.com",
-  "password": "Ijmari1337@"
+  "email": "khalid@gmail.com",
+  "password": "Darify1337@"
 }
 
 ### GET  ALL USERS IN DATABASE 
@@ -49,3 +53,11 @@ GET http://localhost:3001/api/user/email/darify1337@gmail.com
 ### GET USER BY TOKEN
 GET http://localhost:3001/api/user/accessToken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYjg2ODVjNjMtOWI1OC00NDkwLWIzOGYtM2RiMWJjMzc2ZTVkIiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNzY5NjgxMCwiZXhwIjoxNzI3NzgzMjEwfQ.LcGKz9Jiz8kMygnhze6dsPnF6PT_Z29l26X4dwXwgP4
 Cookie: access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYjg2ODVjNjMtOWI1OC00NDkwLWIzOGYtM2RiMWJjMzc2ZTVkIiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0yOFQxMToxNToyMi4zODJaIiwiZmlyc3ROYW1lIjoiRGFyaWZ5IiwibGFzdE5hbWUiOiJNb2hhbWVkIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0o1WjdtOGU4THFqUTFEcnBqTmZsX2pkZDdSWHFjdnRXU1ZGZWFIMXRJOFlXczlsLWs2PXM5Ni1jIiwicHJvdmlkZXIiOiJnb29nbGUiLCJlbWFpbCI6ImRhcmlmeTEzMzdAZ21haWwuY29tIiwidXNlcm5hbWUiOiJNb2hhbWVkIERhcmlmeSJ9LCJwcm92aWRlciI6Imdvb2dsZSIsImlhdCI6MTcyNzY5NjgxMCwiZXhwIjoxNzI3NzgzMjEwfQ.LcGKz9Jiz8kMygnhze6dsPnF6PT_Z29l26X4dwXwgP4
+
+
+### GET ALL USERS LOGIN WIHT SING UP IN DATABASE
+GET http://localhost:3001/api/signup/all
+
+
+### GET sorted users
+GET http://localhost:3001/api/user/sorted
