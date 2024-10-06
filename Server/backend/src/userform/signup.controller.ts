@@ -12,16 +12,16 @@ import {
     UsePipes,
     ValidationPipe} from '@nestjs/common';
     import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SignUpService } from './signup.service';
 import { userSignUpDto } from '../user/dto/create.signup.dto';
 import { CreateUserDto } from '../user/dto/create.user.dto';
 import { userSignInDto } from 'src/user/dto/create.signin.dto';
+import {UserService} from 'src/user/user.service';
 
     @Controller('signup')
     @ApiTags('signup')
     export class SignUpController {
         constructor(
-            private readonly signupservice: SignUpService,
+            private readonly signupservice: UserService,
         ){
 
         }

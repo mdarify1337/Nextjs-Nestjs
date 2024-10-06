@@ -46,6 +46,18 @@ export class CreateSignUpUser {
     @IsNotEmpty({ message: 'Confirm password is required' })
     confirmPassword?: string;
     
+    @Column({ nullable: true})
+    firstName?: string;
+  
+    @Column({ nullable: true})
+    lastName?: string;
+  
+    @Column({ nullable: true})
+    picture?: string;
+  
+
+    @Column({nullable: true})
+    provider?: string;
 
     @BeforeInsert()
     async hashPassword() {

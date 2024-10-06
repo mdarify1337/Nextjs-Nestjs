@@ -42,9 +42,8 @@ function SignInForm () {
       const responseText = await response.text();
       console.log('Response Text -> ', responseText);
       const validUser = responseText ? JSON.parse(responseText) : null;
-      if (response.ok && validUser) {
+      if (response.ok) {
         console.log('validUser -> ', validUser);
-        if (validUser && validUser.email === values.email) {
           const createResponse = await fetch(`http://localhost:3001/api/user/signin`, {
             method: 'POST',
             headers: {
@@ -55,14 +54,20 @@ function SignInForm () {
           console.log('createResponse -> ', createResponse);
           const createResponseText = await createResponse.text();
           console.log('Create Response Text -> ', createResponseText);
-          if (createResponse.ok) {
+          if (createResponse.ok ) {
             console.log('User created successfully. Redirecting to sign-in page...');
             window.location.href = 'http://localhost:3000/profile';
-          } else {
+          } 
+           else if (createResponse.status === 401) {
+            const errorResponse = await createResponse.json();
+            console.log(errorResponse);
+            // throw new Error('Unauthorized: Invalid password');
+          }
+          else {
             console.log('Failed to create user. Please try again.');
           }
           return;
-        }
+
       } else if (response.ok && !validUser) {
           console.log('invalid data, pleast enter a valid data')
       } 

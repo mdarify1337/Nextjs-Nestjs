@@ -50,10 +50,11 @@ const SignUpForm = () => {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
   });
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    console.log('values ', values)
     try {
       const response = await fetch(`http://localhost:3001/api/user/email/${values.email}`);
       console.log('Response -> ', response);

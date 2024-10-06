@@ -8,14 +8,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from '../Strategy/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from '../Configuration/google.config';
-import { CreateSignUpUser } from './signup.entity';
-import { SignUpService } from './signup.service';
 import { SignUpController } from './signup.controller';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
+    UserModule,
     HttpModule,
-    TypeOrmModule.forFeature([CreateSignUpUser]),
+    TypeOrmModule.forFeature([User]),
     ConfigModule.forFeature(googleOauthConfig),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -26,8 +26,8 @@ import { SignUpController } from './signup.controller';
       }),
     }),
   ],
-  providers: [SignUpService],
+  providers: [UserService],
   controllers: [SignUpController],
-  exports: [SignUpService],
+  exports: [UserService],
 })
 export class SignUpModule {}

@@ -44,7 +44,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
                     picture, 
                     username, 
                     id, 
-                    provider 
+                    provider
                 })
             console.log('UserValidate : ',user)
             const shortLivedAccessToken = await 
@@ -52,8 +52,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             return {
                 user: user,
                 firstLogin: user.firstLogin,
-                appAccessToken: shortLivedAccessToken,
-                providerAccessToken: accessToken
+                appAccessToken: shortLivedAccessToken.accessToken,
+                providerAccessToken: accessToken,
+                refreshToken: shortLivedAccessToken.refreshToken
             }
         }
         catch (error) {

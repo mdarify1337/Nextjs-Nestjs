@@ -33,7 +33,7 @@ export class UserController {
         type: CreateUserDto
       })
     @ApiBody(
-      { 
+      {
         type: CreateUserDto, 
         description: 'Create User', 
         required: true,
@@ -89,7 +89,6 @@ export class UserController {
     async getUsersSortedByUsername(): Promise<User[]> {
       return this.userService.getUsersSortedByUsername();
     }
-
 
 }
 

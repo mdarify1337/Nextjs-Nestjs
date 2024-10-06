@@ -1,8 +1,10 @@
 import SignUpForm from '@/components/form/SignUpForm';
+import '../../style.css'
 
 const page = () => {
   return (
-    <div className='w-full'>
+    <div className='fontstyle w-full flex flex-col justify-center items-center font-none'>
+      <h1 className='font-bold flex flex-row text-4xl'>SignUp</h1>
       <SignUpForm />
     </div>
   );

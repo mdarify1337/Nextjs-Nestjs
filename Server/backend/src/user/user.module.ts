@@ -8,12 +8,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from '../Strategy/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from '../Configuration/google.config';
-import { CreateSignUpUser } from '../userform/signup.entity';
 
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([User,CreateSignUpUser]),
+    TypeOrmModule.forFeature([User]),
     ConfigModule.forFeature(googleOauthConfig),
     JwtModule.registerAsync({
       imports: [ConfigModule],
