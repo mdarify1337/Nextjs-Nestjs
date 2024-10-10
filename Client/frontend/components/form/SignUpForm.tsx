@@ -15,6 +15,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
+import GitHubSignin from '../githubbutton';
 import { redirect } from 'next/navigation';
 // import { Email } from '@mui/icons-material';
 // import { useRouter } from 'next/router';
@@ -105,7 +106,7 @@ const SignUpForm = () => {
                 <FormLabel className='text-white font-bold'>Username</FormLabel>
                 <FormControl>
                   <Input 
-                  className='placeholder:text-black text-black' 
+                  className='placeholder:text-black text-black bg-[#30324D]' 
                   placeholder='username' {...field} />
                 </FormControl>
                 <FormMessage />
@@ -120,7 +121,7 @@ const SignUpForm = () => {
                 <FormLabel className='text-white  font-bold'>Email</FormLabel>
                 <FormControl>
                   <Input 
-                  className='placeholder:text-black text-black'
+                  className='placeholder:text-black text-black bg-[#30324D]'
                   placeholder='username@gmail.com' {...field} />
                 </FormControl>
                 <FormMessage />
@@ -137,7 +138,7 @@ const SignUpForm = () => {
                   <Input
                     type='password'
                     placeholder='Enter your password'
-                    className='placeholder:text-black text-black'
+                    className='placeholder:text-black text-black bg-[#30324D]'
                     {...field}
                   />
                 </FormControl>
@@ -155,7 +156,7 @@ const SignUpForm = () => {
                 className='text-white font-bold'>Re-enter your password</FormLabel>
                 <FormControl>
                   <Input
-                  className='placeholder:text-black text-black'
+                  className='placeholder:text-black text-black bg-[#30324D]' 
                     placeholder='Re-Enter your password'
                     type='password'
                     {...field}
@@ -166,7 +167,7 @@ const SignUpForm = () => {
             )}
           />
         </div>
-        <Button className='w-full mt-6 font-bold' type='submit'>
+        <Button className='w-full mt-6 font-bold bg-[#7660E3]' type='submit'>
           Sign up
         </Button>
       </form>
@@ -174,9 +175,10 @@ const SignUpForm = () => {
         or
       </div>
       <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+      <GitHubSignin>Sign up with Github</GitHubSignin>
       <p className='text-center text-sm text-black mt-2 font-bold'>
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-800 font-bold hover:underline' href='/signin'>
+        <Link className='text-blue-800 font-extrabold hover:underline' href='/signin'>
           Sign in
         </Link>
       </p>

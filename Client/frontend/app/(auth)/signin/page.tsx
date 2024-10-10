@@ -3,7 +3,7 @@ import '../../style.css'
 
 const page = () => {
   return (
-    <div className='fontstyle font-bold  w-full flex flex-col justify-center items-center'>
+    <div className='fontstyle font-bold h-[500px] w-full flex flex-col p-4 gap-6 mt-12 justify-center font-monospace items-center'>
       <h1 className='font-bold flex flex-row text-4xl'>SignIn</h1>
       <SignInForm />
     </div>

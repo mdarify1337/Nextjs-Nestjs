@@ -10,7 +10,8 @@ const config: Config = {
   theme: {
   	extend: {
 		fontFamily: {
-			'none': 'inherit', // Set font-family to inherit
+			monospace: ['monospace'], // Set font-family to inherit
+			fantasy: ['cursive'],
 		  },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

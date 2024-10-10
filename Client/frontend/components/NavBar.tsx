@@ -1,35 +1,25 @@
 "use client"
 
-import { HandMetal, Link } from 'lucide-react'
-import React from 'react'
-import { Button, buttonVariants } from './ui/button'
-import redirect from 'next/navigation';
-
-
+import { HandMetal, Link } from 'lucide-react';
+import React from 'react';
+import { Button, buttonVariants } from './ui/button';
+import Image from 'next/image'; // Use next/image for optimization
+import background from '@/image/Group 2.png'; // Importing image
+import { div } from 'framer-motion/client';
 
 function Navbar() {
-    const Googlelogin = () => {
-        window.location.href = 'http://localhost:3000/signin';
-    };
-    const loginWithGoogle = () => console.log('login with google');
     return (
-        <div className='  py-2
-                 fixed w-full z-10 top-0'>
-            <div className='container  flex items-center flex-row-reverse'>
-                {/* <Link href='/'>
-                    <HandMetal />
-                </Link> */}
-                {/* <Link 
-                    className={buttonVariants()} 
-                    href='http://localhost:3000/signin'>
-                    Sign In
-                </Link> */}
-                {/* <Button className='font-bold ' onClick={Googlelogin}>
-                    <p className='p-4'>Sign In </p>
-                </Button> */}
-            </div>
+        <div className='flex flex-col gap-16 mb-6 justify-center items-center w-[650px] h-[700px]'>
+            <h2 className='text-white -top-[75px] text-9xl mb-8 font-extrabold size-36 relative font-fantasy -left-[155px]'>
+                Project Pro</h2>
+            <Image
+                src={background}
+                width={500}
+                height={600}
+                alt='background'
+            />
         </div>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;

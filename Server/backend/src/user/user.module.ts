@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from '../Strategy/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from '../Configuration/google.config';
+import { GithubStrategy } from 'src/Strategy/github.strategy';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import googleOauthConfig from '../Configuration/google.config';
       }),
     }),
   ],
-  providers: [UserService, GoogleStrategy],
+  providers: [UserService, GoogleStrategy, GithubStrategy],
   controllers: [UserController],
   exports: [UserService],
 })

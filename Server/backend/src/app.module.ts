@@ -5,17 +5,18 @@ import { GoogleStrategy } from './Strategy/google.strategy';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
-import { UserService } from './user/user.service';
-import { UserController } from './user/user.controller';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import googleOauthConfig from './Configuration/google.config'
+import { ConfigModule } from '@nestjs/config';
+import googleOauthConfig from './Configuration/google.config';
+import githubOauthConfig from './Configuration/github.config'; // Renamed for consistency
 import { SignUpModule } from './userform/signup.module';
+import { GithubModule } from './user/github/github.module';
+import { GithubStrategy } from './Strategy/github.strategy';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [googleOauthConfig],  // Load configuration
-      isGlobal: true,  // Make ConfigModule global if needed
+      load: [googleOauthConfig, githubOauthConfig],  // Use consistent naming
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -26,13 +27,13 @@ import { SignUpModule } from './userform/signup.module';
       database: process.env.DATABASE_NAME,
       entities: [User],
       synchronize: true,
-      autoLoadEntities: true
+      autoLoadEntities: true,
     }),
     UserModule,
     SignUpModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
 })
-export class AppModule { }
-
+export class AppModule {}

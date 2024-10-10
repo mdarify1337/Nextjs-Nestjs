@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 
 import { AuthGuard } from '@nestjs/passport'
 import { GoogleAuthGuard } from './guards/google.guards';
+import { GithubAuthGuard } from './guards/github.guards';
 
 @Controller()
 export class AppController {
@@ -17,6 +18,8 @@ export class AppController {
   @UseGuards(GoogleAuthGuard)
   async googlelogin(@Req() req) { }
 
+  
+
   @UseGuards(GoogleAuthGuard)
   @Get('auth/google/callback')
   async googleLoginCallback(
@@ -24,10 +27,11 @@ export class AppController {
       @Res() res): 
     Promise<void> 
   {
-    const firstLogin = req.user.firstLogin;
-    const accessToken = req.user.appAccessToken;
-    const providerAccessToken = req.user.providerAccessToken;
-    const refreshToken = req.user.refreshToken;
+    console.log(req.user)
+    const firstLogin = req.user?.firstLogin;
+    const accessToken = req.user?.appAccessToken;
+    const providerAccessToken = req.user?.providerAccessToken;
+    const refreshToken = req.user?.refreshToken;
     res.cookie('firstLogin', firstLogin)
     res.cookie('access_token', accessToken)
     res.cookie('providerAccessToken', providerAccessToken)
@@ -35,6 +39,8 @@ export class AppController {
     // console.log('response -> ', res);
     res.redirect(`http://localhost:3000/`)
   }
+
+ 
 }
 
 

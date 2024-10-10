@@ -15,6 +15,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton'
+import GitHubSignin from '../githubbutton';
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -79,7 +80,7 @@ function SignInForm () {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
+        <div className='space-y-2 '>
           <FormField
             control={form.control}
             name='email'
@@ -90,7 +91,7 @@ function SignInForm () {
                 >Email</FormLabel>
                 <FormControl>
                   <Input 
-                  className='placeholder:text-black font-bold text-black '
+                  className='placeholder:text-black font-bold text-black bg-[#30324D]'
                   placeholder='mail@example.com' {...field} />
                 </FormControl>
                 <FormMessage />
@@ -109,7 +110,7 @@ function SignInForm () {
                   <Input
                     type='password'
                     placeholder='Enter your password'
-                    className='placeholder:text-black font-bold  text-black'
+                    className='placeholder:text-black font-bold  text-black bg-[#30324D]'
                     {...field}
                   />
                 </FormControl>
@@ -118,7 +119,7 @@ function SignInForm () {
             )}
           />
         </div>
-        <Button className='w-full mt-6 font-bold' type='submit'>
+        <Button className='w-full mt-6 font-bold bg-[#7660E3]' type='submit'>
           Sign in
         </Button>
       </form>
@@ -126,6 +127,7 @@ function SignInForm () {
         or
       </div>
       <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
+      <GitHubSignin>Sign in with Github</GitHubSignin>
       <p className='text-center text-sm text-black mt-2 font-bold'>
         If you don&apos;t have an account, please&nbsp;
         <Link className='text-blue-800 font-bold hover:underline' href='/signup'>
