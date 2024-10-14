@@ -17,9 +17,6 @@ import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import GitHubSignin from '../githubbutton';
 import { redirect } from 'next/navigation';
-// import { Email } from '@mui/icons-material';
-// import { useRouter } from 'next/router';
-// import { toast } from 'react-toastify';
 const FormSchema = z
   .object({
     username: 
@@ -178,7 +175,7 @@ const SignUpForm = () => {
       <GitHubSignin>Sign up with Github</GitHubSignin>
       <p className='text-center text-sm text-black mt-2 font-bold'>
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-800 font-extrabold hover:underline' href='/signin'>
+        <Link className='text-[#608CE3] font-extrabold hover:underline font-serif ' href='/signin'>
           Sign in
         </Link>
       </p>

@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 /* styles/globals.css */
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400&display=swap');  */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
 :root{
     --main-color:#6C48C5;
@@ -8,11 +8,14 @@
 
 
 .backgroundbody {
-    background-image: url('../image/darify.jpg');
+    background-image: url('../image/Airline\ Flight\ Operations\ Management\ System\ _\ Chetu_com.jpeg');
     background-size: cover; /* Ensures the image covers the entire area */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     background-position: center; 
-    width: 100%;
+    width: 480px;
+    height: 780px;
+    /* border: 4px; */
+    /* background-color: #6C48C5; */
 }
 
 

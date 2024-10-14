@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { User } from '../../../Server/backend/src/user/modal/user.modal';
+import { User } from  '../../../Server/backend/src/models/user.modal'
 import { getQueryParams } from "@/utils/getQueryParams";
 import './style.css';
 import vediologo from '@/image/re-recording-32.png';

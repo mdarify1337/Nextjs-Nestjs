@@ -61,3 +61,104 @@ GET http://localhost:3001/api/user/all
 
 ### GET sorted users
 GET http://localhost:3001/api/user/sorted
+
+
+### POST MEETINGS BY USER
+
+
+POST http://localhost:3001/api/meetings  
+Content-Type: application/json
+
+{
+  "title": "Weekly Standup",
+  "description": "Discuss the progress of the week",
+  "scheduledAt": "2024-10-12T10:00:00Z",
+  "attendees": [
+    {
+      "id": "07004334-fd8a-4d1c-b8fb-83fd9256c459",
+      "username": "mdarify",
+      "jobTitle": "Full Stack Developer"
+    },
+    {
+      "id": "cddd7979-dec8-41ab-9b54-6487bcf101d9",
+      "username": "otherUser",
+      "jobTitle": "Software Developer"
+    }
+  ],
+  "type": "official",
+  "folderName": "October Meetings",
+  "summary": {
+    "overview": "A quick summary of this week's progress and challenges.",
+    "keypoints": {
+      "projectProgress": ["Completed module A", "Started testing on module B"],
+      "challengesFaced": ["Delay in delivery of API", "Issue with server performance"],
+      "ActionItems": ["Follow up on API delay", "Optimize server performance"],
+      "nextSteps": ["Complete module B testing", "Prepare release notes"]
+    }
+  },
+  "transcript": "Transcript of the meeting...",
+  "notes": "Some additional notes...",
+  "snippets": ["Snippet 1", "Snippet 2"],
+  "meetingVideoUrl": "http://example.com/video/meeting-123"
+}
+
+
+# {
+#   "title": "Weekly Standup",
+#   "description": "Discuss the progress of the week",
+#   "scheduledAt": "2024-10-12T10:00:00Z",
+#   "attendees": [
+#     {
+#       "id": "07004334-fd8a-4d1c-b8fb-83fd9256c459",
+#       "username": "mdarify"
+#     }
+#   ],
+#   "type": "official",
+#   "folderName": "October Meetings",
+#   "summary": {
+#     "overview": "A quick summary of this week's progress and challenges.",
+#     "keypoints": {
+#       "projectProgress": ["Completed module A", "Started testing on module B"],
+#       "challengesFaced": ["Delay in delivery of API", "Issue with server performance"],
+#       "ActionItems": ["Finalized project timeline", "Discussed solutions for API delay"],
+#       "nextSteps": ["Complete module B testing", "Optimize server performance"]
+#     }
+#   },
+#   "transcript": "Transcript of the meeting...",
+#   "notes": "Some additional notes...",
+#   "snippets": ["Snippet 1", "Snippet 2"],
+#   "meetingVideoUrl": "http://example.com/video/meeting-123"
+# }
+
+
+
+### GET ALL MEETIGNS CREATE BY USER
+GET http://localhost:3001/api/meetings
+
+[
+  {
+    "id": "cddd7979-dec8-41ab-9b54-6487bcf101d9",
+    "title": "Weekly Standup",
+    "description": "Discuss the progress of the week",
+    "scheduledAt": "2024-10-12T10:00:00Z",
+    "createdBy": {
+      "id": "user-id",
+      "username": "creatorUsername"
+    },
+    "attendees": [
+      {
+        "id": "07004334-fd8a-4d1c-b8fb-83fd9256c459",
+        "username": "mdarify"
+      }
+    ]
+  }
+]
+
+
+### GET MEETING BY SPICIFIC ID CREATED BY USER
+
+GET  http://localhost:3001/api/meetings/fec4db75-311b-4f59-aa50-9f1f55747113
+
+
+### DELETE MEETING BY ID
+DELETE http://localhost:3001/api/meetings/2e1dbe59-9640-4c75-a046-ebe3514860a6

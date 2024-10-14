@@ -20,9 +20,8 @@ export default function RootLayout({
   return (
     <html lang='en' >
       <body className={`${inter.className}  `}>
-          <main className='h-screen bg-[#0C0E29] flex rounded-sm border-[2px] border-white
-            flex-row gap-2   justify-center'>
-            
+          <main className='h-screen bg-[#0C0E29] flex rounded-sm 
+            flex-row gap-2   justify-center items-center'>
             {children}
             <div>
             </div>

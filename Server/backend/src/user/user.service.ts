@@ -41,10 +41,6 @@ export class UserService {
         user.email = email;
         user.username = username;
         user.password = await bcrypt.hash(password, 10);
-        user.confirmPassword = undefined;
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.picture = picture;
         user.provider = 'signup';
         console.log('signup user -> ', user);
         try {
@@ -88,6 +84,20 @@ export class UserService {
 
     }
 
+    // async updateUserJobTitles() {
+    //     const users = await this.userRepository.find(
+    //         { 
+    //             where: { 
+    //                 jobTitle: null 
+    //             } 
+    //         });
+    //     for (const user of users) {
+    //         user.jobTitle = 'Unknown'; // Set a default value
+    //         await this.userRepository.save(user);
+    //     }
+    // }
+    
+
     async findOrcreateUser(createUser: Partial<User>): Promise<any> {
         const user: User = new User();
         user.firstName = createUser.firstName;
@@ -97,6 +107,7 @@ export class UserService {
         user.picture = createUser.picture;
         user.provider = createUser.provider;
         user.password = createUser.password;
+        user.jobTitle = createUser.jobTitle;
         let existingUser = await this.userRepository.findOne({
             where: [
                 { email: user.email },

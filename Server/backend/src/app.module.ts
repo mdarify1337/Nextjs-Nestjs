@@ -11,6 +11,15 @@ import githubOauthConfig from './Configuration/github.config'; // Renamed for co
 import { SignUpModule } from './userform/signup.module';
 import { GithubModule } from './user/github/github.module';
 import { GithubStrategy } from './Strategy/github.strategy';
+import { ChatService } from './chat/chat.service';
+import { ChatController } from './chat/chat.controller';
+import { ChatModule } from './chat/chat.module';
+import { Meeting } from './meeting/meeting.entity';
+import { MeetingsModule } from './meeting/meeting.module';
+import { ProjectService } from './project/project.service';
+import { ProjectModule } from './project/project.module';
+
+
 
 @Module({
   imports: [
@@ -25,15 +34,18 @@ import { GithubStrategy } from './Strategy/github.strategy';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User],
+      entities: [User, Meeting],
       synchronize: true,
       autoLoadEntities: true,
     }),
     UserModule,
     SignUpModule,
     GithubModule,
+    ChatModule,
+    MeetingsModule,
+    ProjectModule
   ],
-  controllers: [AppController],
-  providers: [AppService, GoogleStrategy],
+  controllers: [AppController, ChatController],
+  providers: [AppService, GoogleStrategy, ChatService, ProjectService],
 })
 export class AppModule {}

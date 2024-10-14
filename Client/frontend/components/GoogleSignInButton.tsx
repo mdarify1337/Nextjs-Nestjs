@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react';
 import { Button } from './ui/button';
-// import GoogleIcon from '@mui/icons-material/Google';
+import google from '@/image/google.png'
+import github from '@/image/github.png'
+import Image from 'next/image';
 
 interface GoogleSignInButtonProps {
   children: ReactNode;
@@ -17,8 +19,12 @@ const GoogleSignInButton: FC<GoogleSignInButtonProps> = (
       onClick={loginWithGoogle} 
       className='w-full flex flex-row justify-evenly   font-bold bg-[#252A39] p-4'
     >
-        {/* <GoogleIcon/> */}
-    {/* <img src={GoogleIcon} alt="" /> */}
+      <Image
+        src={google}
+        width={25}
+        height={25}
+        alt='background'
+      />
       {children}
     </Button>
   );

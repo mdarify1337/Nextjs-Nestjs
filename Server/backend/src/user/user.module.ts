@@ -9,6 +9,9 @@ import { GoogleStrategy } from '../Strategy/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import googleOauthConfig from '../Configuration/google.config';
 import { GithubStrategy } from 'src/Strategy/github.strategy';
+import { SignUpModule } from 'src/userform/signup.module';
+import { GithubModule } from './github/github.module';
+import { ChatModule } from 'src/chat/chat.module';
 
 @Module({
   imports: [

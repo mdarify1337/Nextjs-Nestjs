@@ -119,7 +119,7 @@ function SignInForm () {
             )}
           />
         </div>
-        <Button className='w-full mt-6 font-bold bg-[#7660E3]' type='submit'>
+        <Button className='w-full mt-6 font-bold bg-[#608CE3]' type='submit'>
           Sign in
         </Button>
       </form>
@@ -130,7 +130,7 @@ function SignInForm () {
       <GitHubSignin>Sign in with Github</GitHubSignin>
       <p className='text-center text-sm text-black mt-2 font-bold'>
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-800 font-bold hover:underline' href='/signup'>
+        <Link className='text-[#608CE3] font-extrabold font-monospace hover:underline' href='/signup'>
           Sign up
         </Link>
       </p>

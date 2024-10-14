@@ -9,14 +9,15 @@ import { div } from 'framer-motion/client';
 
 function Navbar() {
     return (
-        <div className='flex flex-col gap-16 mb-6 justify-center items-center w-[650px] h-[700px]'>
-            <h2 className='text-white -top-[75px] text-9xl mb-8 font-extrabold size-36 relative font-fantasy -left-[155px]'>
-                Project Pro</h2>
+        <div className='flex flex-col gap-44 justify-center items-center w-[1000px] h-[780px]  p-6 '>
+            {/* <h2 className='text-white -top-[40px] text-9xl mb-8 font-extrabold size-36 relative font-fantasy -left-[165px]'>
+                Project Pro</h2> */}
             <Image
                 src={background}
-                width={500}
-                height={600}
+                width={1200}
+                height={1200}
                 alt='background'
+                className='relavite right-0'
             />
         </div>
     );
