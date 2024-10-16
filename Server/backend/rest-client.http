@@ -66,41 +66,50 @@ GET http://localhost:3001/api/user/sorted
 ### POST MEETINGS BY USER
 
 
-POST http://localhost:3001/api/meetings  
+### Create Meeting
+
+
+### Create Meeting
+POST http://localhost:3001/api/meetings
 Content-Type: application/json
 
 {
-  "title": "Weekly Standup",
-  "description": "Discuss the progress of the week",
-  "scheduledAt": "2024-10-12T10:00:00Z",
-  "attendees": [
-    {
-      "id": "07004334-fd8a-4d1c-b8fb-83fd9256c459",
-      "username": "mdarify",
-      "jobTitle": "Full Stack Developer"
-    },
-    {
-      "id": "cddd7979-dec8-41ab-9b54-6487bcf101d9",
-      "username": "otherUser",
-      "jobTitle": "Software Developer"
-    }
-  ],
-  "type": "official",
-  "folderName": "October Meetings",
+  "title": "Project Sync Meeting",
+  "description": "Discussing project updates and next steps",
+  "scheduledAt": "2024-10-15T10:00:00.000Z",
+  "type": "project",
+  "folderName": "ProjectSyncFolder",
   "summary": {
-    "overview": "A quick summary of this week's progress and challenges.",
+    "overview": "Project Overview",
     "keypoints": {
-      "projectProgress": ["Completed module A", "Started testing on module B"],
-      "challengesFaced": ["Delay in delivery of API", "Issue with server performance"],
-      "ActionItems": ["Follow up on API delay", "Optimize server performance"],
-      "nextSteps": ["Complete module B testing", "Prepare release notes"]
+      "projectProgress": ["Task A completed", "Started Task B"],
+      "challengesFaced": ["Issue 1", "Issue 2"],
+      "ActionItems": [
+        {
+          "memberId": "3fd0d640-7c60-4872-9cb8-8395a26d414e",
+          "username": "mdarify",
+          "profilePicture": "https://avatars.githubusercontent.com/u/116277221?v=4",
+          "mainTasks": ["Authentication", "User Management"],
+          "numberOfTasks": 4
+        },
+        {
+          "memberId": "user-id-1",
+          "username": "user1",
+          "profilePicture": "https://avatars.githubusercontent.com/u/6544646465",
+          "mainTasks": [],
+          "numberOfTasks": 1
+        }
+      ],
+      "nextSteps": ["Finalize design", "Prepare for launch"]
     }
   },
-  "transcript": "Transcript of the meeting...",
-  "notes": "Some additional notes...",
+  "transcript": "Meeting transcript goes here",
+  "notes": "Notes about the meeting",
   "snippets": ["Snippet 1", "Snippet 2"],
-  "meetingVideoUrl": "http://example.com/video/meeting-123"
+  "meetingVideoUrl": "http://example.com/meeting/video.mp4"
 }
+
+
 
 
 # {

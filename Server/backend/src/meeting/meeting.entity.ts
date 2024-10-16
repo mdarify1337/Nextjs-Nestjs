@@ -21,34 +21,6 @@ import
         JoinTable 
     } from "typeorm";
 
-
-class Keypoints {
-    @IsArray()
-    projectProgress: string[];
-  
-    @IsArray()
-    challengesFaced: string[];
-  
-    @IsArray()
-    ActionsItems: string[];
-  
-    @IsArray()
-    nextSteps: string[];
-  }
-  
-class AttendeeDto {
-    @IsUUID()
-    id: string;
-
-    @IsNotEmpty()
-    @IsString()
-    username: string;
-
-    @IsString()
-    @IsNotEmpty()
-    jobTitle: string;
-}
-
 @Entity('meeting')
 export class Meeting {
     @PrimaryGeneratedColumn('uuid')
@@ -72,20 +44,15 @@ export class Meeting {
     @ManyToOne(() => User, (user) => user.createdMeetings)
     createdBy: User;
 
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => AttendeeDto)
-    attendees: AttendeeDto[];
-
     @Column({ nullable: true })
     createdByJobTitle?: string;
 
     @Column(
-        { 
-            type: 'enum', 
-            enum: ['project', 'casual', 'official'], 
-            default: 'project' 
-        })
+    { 
+        type: 'enum', 
+        enum: ['project', 'casual', 'official'], 
+        default: 'project' 
+    })
     type: 'project' | 'casual' | 'official';
 
     @Column({ nullable: true })
@@ -97,7 +64,13 @@ export class Meeting {
         keypoints: {
             projectProgress: string[];
             challengesFaced: string[];
-            ActionItems: string[];
+            ActionItems : {
+                memberId: string;
+                username: string;
+                profilePicture: string;
+                mainTasks: string[];
+                numberOfTasks: number;
+            }[];
             nextSteps: string[];
         };
     };

@@ -22,7 +22,11 @@ export class UserService {
 
     async createUser(createUserDto: Partial<User>):Promise<any> {
         console.log('user dkhal hna 1.1')
-        const {username, email, password, confirmPassword, firstName, lastName, provider, picture } = createUserDto;
+        const 
+            {
+                username, email, password, confirmPassword, 
+                firstName, lastName, provider, picture 
+            } = createUserDto;
         console.log('userdto -> ',createUserDto)
         if (password !== confirmPassword) {
           throw new BadRequestException('Passwords do not match');
@@ -50,6 +54,14 @@ export class UserService {
         } catch(error) {
             console.log('error create user with singup -> ',error)
         }
+    }
+
+    async   update(id: string, payload: Partial<User>) {
+        const User = await this.viewUser(id);
+        if (!User)
+            throw new Error('User Not Found, please try again');
+        Object.assign(User, payload);
+        return this.userRepository.save(User);
     }
     
     async signIn(signInDto: userSignInDto) 
@@ -84,20 +96,6 @@ export class UserService {
 
     }
 
-    // async updateUserJobTitles() {
-    //     const users = await this.userRepository.find(
-    //         { 
-    //             where: { 
-    //                 jobTitle: null 
-    //             } 
-    //         });
-    //     for (const user of users) {
-    //         user.jobTitle = 'Unknown'; // Set a default value
-    //         await this.userRepository.save(user);
-    //     }
-    // }
-    
-
     async findOrcreateUser(createUser: Partial<User>): Promise<any> {
         const user: User = new User();
         user.firstName = createUser.firstName;
@@ -108,12 +106,11 @@ export class UserService {
         user.provider = createUser.provider;
         user.password = createUser.password;
         user.jobTitle = createUser.jobTitle;
+        user.createdMeetings = createUser.createdMeetings;
         let existingUser = await this.userRepository.findOne({
             where: [
                 { email: user.email },
                 { username: user.username },
-                { firstName: user.firstName },
-                { lastName: user.lastName }
             ],
         });
         console.log('createuserbyemail -> ', createUser.email);

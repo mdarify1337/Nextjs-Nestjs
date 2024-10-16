@@ -15,58 +15,31 @@ export class MeetingsService {
         private usersRepository: Repository<User>,
     ) {}
 
-    async createMeeting(meeting: Meeting, userId: string): 
-        Promise<Meeting> 
-    {
+    async createMeeting(meeting: Meeting, userId: string): Promise<Meeting> {
         const user = await this.usersRepository.findOneBy(
             { id: userId });
         if (!user) {
             throw new Error('User not found');
         }
         meeting.createdBy = user;
-        meeting.createdByJobTitle = user.jobTitle;
-        if (!meeting.attendees) {
-            meeting.attendees = [];
-        }
-        const isCreatorInAttendees = meeting.attendees.some(
-                        attendee => attendee.id === user.id);
-        if (!isCreatorInAttendees){
-            const attendeeDto: AttendeeDto = {
-                id: user.id,
-                username: user.username,
-                jobTitle: user.jobTitle,
-            }
-            meeting.attendees.push(attendeeDto);
+        meeting.createdByJobTitle = user.id;
+        // await this.usersRepository.save(user);
+        if (meeting.summary) {
+            meeting.summary = {
+                ...meeting.summary,
+                overview: meeting.summary.overview,
+                keypoints: 
+                {
+                    projectProgress: meeting.summary.keypoints.projectProgress || [],
+                    challengesFaced: meeting.summary.keypoints.challengesFaced || [],
+                    ActionItems: meeting.summary.keypoints.ActionItems || [],
+                    nextSteps: meeting.summary.keypoints.nextSteps || []
+                }
+            };
         }
         console.log('Meeting created by user -> ', meeting);
         return this.meetingsRepository.save(meeting);
     }
-    
-    
-    // async createMeeting(meeting: Meeting, userId: string): Promise<Meeting> {
-    //     const user = await this.usersRepository.findOneBy({ id: userId });
-    //     if (!user) {
-    //         throw new Error('User not found');
-    //     }
-    //     meeting.createdBy = user;
-    //     meeting.createdByJobTitle = user.jobTitle;
-    //     if (!meeting.attendees) {
-    //         meeting.attendees = [];
-    //     }
-    //     const isCreatorInAttendees = meeting.attendees.some(
-    //             attendee => attendee.id === user.id);
-    //     // const attendees = await this.usersRepository.findByIds(attendeeIds);
-    //     if (!isCreatorInAttendees) {
-    //         const attendeeDto: AttendeeDto = {
-    //             id: user.id,
-    //             username: user.username,
-    //             jobTitle: user.jobTitle,
-    //         };
-    //         meeting.attendees.push(attendeeDto);
-    //     }
-    //     console.log('user create meeting -> ', meeting);
-    //     return this.meetingsRepository.save(meeting);
-    // }
 
     async getAllMeetings(): Promise<Meeting[]> {
         return this.meetingsRepository.find(

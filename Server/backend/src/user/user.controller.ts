@@ -5,6 +5,7 @@ import {
     Param, 
     ParseUUIDPipe, 
     Post, 
+    Put, 
     Req, 
     Res, 
     UseFilters, 
@@ -12,7 +13,7 @@ import {
     UsePipes,
     ValidationPipe} from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOkResponse, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create.user.dto';
 import { AuthGuard } from '@nestjs/passport'; 
 import { userSignUpDto } from './dto/create.signup.dto'
@@ -90,5 +91,14 @@ export class UserController {
       return this.userService.getUsersSortedByUsername();
     }
 
+    @Put('Update/:userId')
+    @ApiParam({ name: 'userId', required: true, description: 'User ID' })
+	  @ApiBody({ type: User, description: 'Update User', required: true,})
+    @UseGuards(UseGuards)
+    async updateUserbyid(
+        @Param('userId') id: string, 
+        @Body() updateUserDto: Partial<User>){
+          return await this.userService.update(id, updateUserDto);
+    }
 }
 
