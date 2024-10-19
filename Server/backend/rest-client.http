@@ -93,11 +93,11 @@ Content-Type: application/json
           "numberOfTasks": 4
         },
         {
-          "memberId": "user-id-1",
-          "username": "user1",
-          "profilePicture": "https://avatars.githubusercontent.com/u/6544646465",
-          "mainTasks": [],
-          "numberOfTasks": 1
+          "memberId": "82359e89-27a3-419c-8a5b-fac5d79c93d1",
+          "username": "acharaf13",
+          "profilePicture": "https://avatars.githubusercontent.com/u/116277221?v=4",
+          "mainTasks": ["Authentication", "User Management"],
+          "numberOfTasks": 4
         }
       ],
       "nextSteps": ["Finalize design", "Prepare for launch"]
@@ -171,3 +171,14 @@ GET  http://localhost:3001/api/meetings/fec4db75-311b-4f59-aa50-9f1f55747113
 
 ### DELETE MEETING BY ID
 DELETE http://localhost:3001/api/meetings/2e1dbe59-9640-4c75-a046-ebe3514860a6
+
+
+### CREATE CONNECTION BETWEEN TWO USER
+
+POST http://localhost:3001/api/user/add-connection
+Content-Type: application/json
+
+{
+  "userId": "444ffb17-241b-4a84-af49-3112bdd63710",
+  "connectionId": "82359e89-27a3-419c-8a5b-fac5d79c93d1"
+}

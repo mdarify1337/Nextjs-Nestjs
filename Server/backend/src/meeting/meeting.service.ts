@@ -16,20 +16,25 @@ export class MeetingsService {
     ) {}
 
     async createMeeting(meeting: Meeting, userId: string): Promise<Meeting> {
-        const user = await this.usersRepository.findOneBy(
-            { id: userId });
+        const user = await this.usersRepository.findOneBy({ id: userId });
+        
         if (!user) {
             throw new Error('User not found');
         }
         meeting.createdBy = user;
         meeting.createdByJobTitle = user.id;
-        // await this.usersRepository.save(user);
+        if (meeting.summary 
+            && meeting.summary.keypoints 
+            && meeting.summary.keypoints.ActionItems) {
+            const actionItemUserIds = meeting.summary.keypoints.ActionItems.map(item => item.memberId);
+            const actionItemUsers = await this.usersRepository.findByIds(actionItemUserIds);
+            meeting.connections = user.connections;
+        }
         if (meeting.summary) {
             meeting.summary = {
                 ...meeting.summary,
                 overview: meeting.summary.overview,
-                keypoints: 
-                {
+                keypoints: {
                     projectProgress: meeting.summary.keypoints.projectProgress || [],
                     challengesFaced: meeting.summary.keypoints.challengesFaced || [],
                     ActionItems: meeting.summary.keypoints.ActionItems || [],
@@ -37,9 +42,12 @@ export class MeetingsService {
                 }
             };
         }
+    
         console.log('Meeting created by user -> ', meeting);
         return this.meetingsRepository.save(meeting);
     }
+    
+    
 
     async getAllMeetings(): Promise<Meeting[]> {
         return this.meetingsRepository.find(

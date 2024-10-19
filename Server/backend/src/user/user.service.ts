@@ -20,6 +20,28 @@ export class UserService {
     ) {
     }
 
+    async addConnection(userId: string, connectionId: string): Promise<User> {
+        const user = await this.userRepository.findOne({ 
+            where: { id: userId }, 
+            relations: ['connections'] 
+        });
+        const connection = await this.userRepository.findOne({ 
+            where: { id: connectionId } 
+        });
+        if (!user || !connection) {
+            throw new Error('User or connection not found');
+        }
+        const isAlreadyConnected = user.connections.some(conn => 
+            conn.id === connection.id);
+        if (isAlreadyConnected) {
+            throw new Error('Connection already exists');
+        }
+        user.connections.push(connection);
+        return this.userRepository.save(user);
+    }
+    
+      
+
     async createUser(createUserDto: Partial<User>):Promise<any> {
         console.log('user dkhal hna 1.1')
         const 

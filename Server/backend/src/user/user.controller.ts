@@ -100,5 +100,14 @@ export class UserController {
         @Body() updateUserDto: Partial<User>){
           return await this.userService.update(id, updateUserDto);
     }
+
+    @Post('add-connection')
+    async addConnection(
+        @Body() addConnectionDto: { userId: string, connectionId: string }
+    ): Promise<User> {
+        return this.userService.addConnection(addConnectionDto.userId, 
+            addConnectionDto.connectionId);
+    }
+
 }
 

@@ -66,6 +66,14 @@ export class User {
     @OneToMany(() => Meeting, (meeting) => meeting.createdBy)
     createdMeetings: Meeting[];
 
+    @ManyToMany(() => User)
+    @JoinTable({
+        name: 'user_connections', // Table to store the connections
+        joinColumn: { name: 'userId' },
+        inverseJoinColumn: { name: 'connectionId' }
+    })
+    connections: User[];
+
     @BeforeInsert()
     async hashPassword() {
         // Ensure password is hashed before insertion
