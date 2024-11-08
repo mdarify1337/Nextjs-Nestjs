@@ -10,7 +10,7 @@ import
     } from 'class-validator';
 import { BeforeInsert, FindOperator, Unique } from 'typeorm';
 
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 @Unique(['username'])
 export class userSignUpDto {
     @IsString()

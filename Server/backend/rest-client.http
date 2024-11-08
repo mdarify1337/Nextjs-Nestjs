@@ -11,7 +11,7 @@ Content-Type: application/json
     "picture": "http://google.com/picture.jpg",
     "provider": "google",
     "email": "Msdarify4513-3f7@gmail.com",
-    "username": "l52Sdarify1337"
+    "username": "l52Sdarify1337",
   }
 
 
@@ -75,6 +75,9 @@ Content-Type: application/json
 
 {
   "title": "Project Sync Meeting",
+  "Date": "05-11-2024",
+  "Time": "14:45PM",
+  "Duration": "02H15m",
   "description": "Discussing project updates and next steps",
   "scheduledAt": "2024-10-15T10:00:00.000Z",
   "type": "project",
@@ -87,15 +90,11 @@ Content-Type: application/json
       "ActionItems": [
         {
           "memberId": "3fd0d640-7c60-4872-9cb8-8395a26d414e",
-          "username": "mdarify",
-          "profilePicture": "https://avatars.githubusercontent.com/u/116277221?v=4",
           "mainTasks": ["Authentication", "User Management"],
           "numberOfTasks": 4
         },
         {
           "memberId": "82359e89-27a3-419c-8a5b-fac5d79c93d1",
-          "username": "acharaf13",
-          "profilePicture": "https://avatars.githubusercontent.com/u/116277221?v=4",
           "mainTasks": ["Authentication", "User Management"],
           "numberOfTasks": 4
         }
@@ -107,6 +106,35 @@ Content-Type: application/json
   "notes": "Notes about the meeting",
   "snippets": ["Snippet 1", "Snippet 2"],
   "meetingVideoUrl": "http://example.com/meeting/video.mp4"
+}
+
+####
+POST http://localhost:3001/api/meetings
+Content-Type: application/json
+
+{
+    "title": "Project Kickoff Meeting",
+    "description": "Kickoff for the new project",
+    "scheduledAt": "2024-11-07T10:00:00Z",
+    "summary": {
+        "overview": "Overview of the project",
+        "keypoints": {
+            "projectProgress": ["Initial setup completed"],
+            "challengesFaced": ["Budget constraints"],
+            "ActionItems": [
+                {
+                    "memberId": "3fd0d640-7c60-4872-9cb8-8395a26d414e",
+                    "mainTasks": ["Define project scope", "Set timelines"]
+                },
+                {
+                    "memberId": "82359e89-27a3-419c-8a5b-fac5d79c93d1",
+                    "mainTasks": ["Gather requirements", "Identify stakeholders"]
+                }
+            ],
+            "nextSteps": ["Schedule follow-up meeting"]
+        }
+    },
+    "userId": "1d9b18e6-be5b-401f-82ad-9bbeb455b259" 
 }
 
 
@@ -156,7 +184,7 @@ GET http://localhost:3001/api/meetings
     },
     "attendees": [
       {
-        "id": "07004334-fd8a-4d1c-b8fb-83fd9256c459",
+        "id": "5cb4115f-4a2d-4c06-9302-f2042cafc8f9",
         "username": "mdarify"
       }
     ]
@@ -179,6 +207,6 @@ POST http://localhost:3001/api/user/add-connection
 Content-Type: application/json
 
 {
-  "userId": "444ffb17-241b-4a84-af49-3112bdd63710",
-  "connectionId": "82359e89-27a3-419c-8a5b-fac5d79c93d1"
+  "userId": "5cb4115f-4a2d-4c06-9302-f2042cafc8f9",
+  "connectionId": "1d9b18e6-be5b-401f-82ad-9bbeb455b259"
 }

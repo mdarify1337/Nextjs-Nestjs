@@ -20,7 +20,6 @@ import { ProjectService } from './project/project.service';
 import { ProjectModule } from './project/project.module';
 
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +45,6 @@ import { ProjectModule } from './project/project.module';
     ProjectModule
   ],
   controllers: [AppController, ChatController],
-  providers: [AppService, GoogleStrategy, ChatService, ProjectService],
+  providers: [AppService, GoogleStrategy, GithubStrategy,ChatService, ProjectService],
 })
 export class AppModule {}

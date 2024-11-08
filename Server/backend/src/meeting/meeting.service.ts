@@ -1,4 +1,3 @@
-// src/meetings/meetings.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,6 +14,49 @@ export class MeetingsService {
         private usersRepository: Repository<User>,
     ) {}
 
+
+    // async createMeeting(meeting: Meeting, userId: string): Promise<Meeting> {
+    //     const user = await this.usersRepository.findOneBy({ id: userId });
+        
+    //     if (!user) {
+    //         throw new Error('User not found');
+    //     }
+        
+    //     meeting.createdBy = user;
+    //     meeting.createdByJobTitle = user.id;
+    
+    //     if (meeting.summary && meeting.summary.keypoints && meeting.summary.keypoints.ActionItems) {
+    //         const actionItemUserIds = meeting.summary.keypoints.ActionItems.map(item => item.memberId);
+    //         const actionItemUsers = await this.usersRepository.findByIds(actionItemUserIds);
+            
+    //         meeting.summary.keypoints.ActionItems = meeting.summary.keypoints.ActionItems.map(item => {
+    //             const member = actionItemUsers.find(user => user.id === item.memberId.id); // Find user object
+                
+    //             return {
+    //                 memberId: member, // This should be the user object if you want to store the full object
+    //                 mainTasks: item.mainTasks,
+    //                 numberOfTasks: item.mainTasks.length // Set numberOfTasks dynamically
+    //             };
+    //         }).filter(actionItem => actionItem.memberId);
+    //     }
+    
+    //     if (meeting.summary) {
+    //         meeting.summary = {
+    //             ...meeting.summary,
+    //             overview: meeting.summary.overview,
+    //             keypoints: {
+    //                 projectProgress: meeting.summary.keypoints.projectProgress || [],
+    //                 challengesFaced: meeting.summary.keypoints.challengesFaced || [],
+    //                 ActionItems: meeting.summary.keypoints.ActionItems || [],
+    //                 nextSteps: meeting.summary.keypoints.nextSteps || []
+    //             }
+    //         };
+    //     }
+    
+    //     console.log('Meeting created by user -> ', meeting);
+    //     return this.meetingsRepository.save(meeting);
+    // }
+    
     async createMeeting(meeting: Meeting, userId: string): Promise<Meeting> {
         const user = await this.usersRepository.findOneBy({ id: userId });
         

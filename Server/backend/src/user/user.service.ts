@@ -34,7 +34,7 @@ export class UserService {
         const isAlreadyConnected = user.connections.some(conn => 
             conn.id === connection.id);
         if (isAlreadyConnected) {
-            throw new Error('Connection already exists');
+            return user;
         }
         user.connections.push(connection);
         return this.userRepository.save(user);
@@ -66,7 +66,9 @@ export class UserService {
         const user = new CreateSignUpUser();
         user.email = email;
         user.username = username;
-        user.password = await bcrypt.hash(password, 10);
+        const salt = await bcrypt.genSalt(10); // You can specify the salt rounds here
+        // Hash the password with the salt
+        user.password = await bcrypt.hash(password, salt)
         user.provider = 'signup';
         console.log('signup user -> ', user);
         try {

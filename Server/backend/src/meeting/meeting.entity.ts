@@ -32,6 +32,15 @@ import
         @UpdateDateColumn()
         updatedAt: Date;
     
+        @Column({nullable: true})
+        Date: string;
+
+        @Column({nullable: true})
+        Time: string;
+
+        @Column({nullable: true})
+        Duration: string
+
         @Column({ nullable: false })
         title: string;
     
@@ -40,7 +49,7 @@ import
     
         @Column({ type: 'timestamp', nullable: false })
         scheduledAt: Date;
-    
+
         @ManyToOne(() => User, (user) => user.createdMeetings)
         createdBy: User;
     
@@ -65,12 +74,11 @@ import
                 projectProgress: string[];
                 challengesFaced: string[];
                 ActionItems : {
-                    memberId: string;
-                    username: string;
-                    profilePicture: string;
+                    memberId: User;
                     mainTasks: string[];
                     numberOfTasks: number;
                 }[];
+
                 nextSteps: string[];
             };
         };
@@ -94,10 +102,24 @@ import
         @ManyToMany(() => User)
         @JoinTable({
             name: 'meeting_connections',
-            joinColumn: { name: 'meetingId', referencedColumnName: 'id' },
-            inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' }
+            joinColumn: 
+                    { 
+                        name: 'meetingId', 
+                        referencedColumnName: 'id' 
+                    },
+            inverseJoinColumn:
+                    { 
+                        name: 'userId', 
+                        referencedColumnName: 'id' 
+                    }
         })
         connections: User[];
+
+        addActionItemsFromConnections(selectedUserIds: string[]): void {
+            this.actionItems = this.connections.filter((user) => 
+                selectedUserIds.includes(user.id)
+            );
+        }
     }
     
 

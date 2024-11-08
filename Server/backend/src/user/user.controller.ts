@@ -105,6 +105,10 @@ export class UserController {
     async addConnection(
         @Body() addConnectionDto: { userId: string, connectionId: string }
     ): Promise<User> {
+        if (!this.userService.viewUser(addConnectionDto.userId) ||
+        !this.userService.viewUser(addConnectionDto.connectionId) ||
+        addConnectionDto.userId === addConnectionDto.connectionId)
+          throw new Error('Something wrong to connection between both user');
         return this.userService.addConnection(addConnectionDto.userId, 
             addConnectionDto.connectionId);
     }

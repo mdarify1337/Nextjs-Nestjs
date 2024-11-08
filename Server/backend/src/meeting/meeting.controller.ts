@@ -12,7 +12,9 @@ export class MeetingsController {
         @Body() meetingData: Meeting, 
         @Body('userId') userId: string)
         : Promise<Meeting> {
-        return this.meetingsService.createMeeting(meetingData, userId);
+        return this.meetingsService.createMeeting(
+                meetingData, 
+                userId);
     }
 
     @Get()

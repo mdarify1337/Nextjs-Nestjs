@@ -18,8 +18,6 @@ export class AppController {
   @UseGuards(GoogleAuthGuard)
   async googlelogin(@Req() req) { }
 
-  
-
   @UseGuards(GoogleAuthGuard)
   @Get('auth/google/callback')
   async googleLoginCallback(

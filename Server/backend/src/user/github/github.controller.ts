@@ -1,20 +1,28 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { 
+    Controller, 
+    Get, 
+    Req, 
+    Res, 
+    UseGuards 
+  } from '@nestjs/common';
 import { GithubAuthGuard } from 'src/guards/github.guards';
 
 @Controller('github')
 export class GithubController {
+
     @Get('login')
     @UseGuards(GithubAuthGuard)
     async githublogin(@Req() req) {
         console.log('fdsfdsfsd')
      }
-    
-     @Get('auth/callback')
-     @UseGuards(GithubAuthGuard)
+
+    @Get('auth/callback')
+    @UseGuards(GithubAuthGuard)
     async githublogincallback(
       @Req() req, 
       @Res() res): 
-    Promise<void> {
+      Promise<void> {
+      console.log('ljsdfl', req.user)
       console.log('github req user -> ', req.user);
       const firstLogin = req.user.firstLogin;
       const accessToken = req.user.appAccessToken;

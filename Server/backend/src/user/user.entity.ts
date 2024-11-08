@@ -13,7 +13,7 @@ import {
     BeforeUpdate,
 } from 'typeorm';
 
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid'
 import { Meeting } from 'src/meeting/meeting.entity';
 // import { Meeting } from 'src/meeting/meeting.entity';
@@ -74,13 +74,13 @@ export class User {
     })
     connections: User[];
 
-    @BeforeInsert()
-    async hashPassword() {
-        // Ensure password is hashed before insertion
-        if (this.password) {
-            this.password = await bcrypt.hash(this.password, 10);
-        }
-    }
+    // @BeforeInsert()
+    // async hashPassword() {
+    //     // Ensure password is hashed before insertion
+    //     if (this.password) {
+    //         this.password = await bcrypt.hash(this.password, 10);
+    //     }
+    // }
 
     @BeforeInsert()
     generateUUID() {
