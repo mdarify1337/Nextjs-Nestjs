@@ -11,8 +11,7 @@ const GitHubSignin: FC<GitHubSigninButtonProps> = (
       { children }) => {
   const loginWithGithub = () => {
     console.log('login with github');
-    window.location.href = 
-        'http://localhost:3001/api/github/login';
+    window.location.href = 'http://localhost:3001/api/github/login';
   }
   return (
     <Button 
