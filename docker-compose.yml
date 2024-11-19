@@ -27,6 +27,7 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
       - DATABASE_NAME=mydatabase
+    env_file: ./Server/backend/.env
     volumes:
       - ./Server/backend:/app
     networks:
@@ -42,7 +43,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: mydatabase
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - /Users/mdarify/Desktop/P2P/Database:/var/lib/postgresql/data
     networks:
       - app-network
 
@@ -59,10 +60,10 @@ networks:
   app-network:
     driver: bridge
 
-volumes:
-  postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./Database
+# volumes:
+#   postgres_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: ./Database
