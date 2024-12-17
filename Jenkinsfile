@@ -11,17 +11,29 @@ pipeline {
         stage('Install Docker') {
             steps {
                 script {
-                    // Install Docker if not already installed (e.g., for Ubuntu)
+                    // Install Docker if not already installed
                     sh '''
-                    if ! command -v docker &> /dev/null
-                    then
+                    # Check if Docker is installed
+                    if ! command -v docker &> /dev/null; then
                         echo "Docker not found, installing..."
-                         apt-get update
-                         apt-get install -y docker.io
-                         systemctl enable docker
-                         systemctl start docker
+                        
+                        # Ensure apt-get works without permission issues
+                        if [ ! -w /var/lib/apt/lists ]; then
+                            echo "Fixing permissions for /var/lib/apt/lists..."
+                            chmod -R 755 /var/lib/apt/lists || exit 1
+                        fi
+                        
+                        # Update package list and install Docker
+                        apt-get update -y
+                        apt-get install -y docker.io
+
+                        # Enable and start Docker service
+                        systemctl enable docker
+                        systemctl start docker
+                        
+                        echo "Docker installation completed successfully."
                     else
-                        echo "Docker is already installed"
+                        echo "Docker is already installed."
                     fi
                     '''
                 }
@@ -31,9 +43,12 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Once Docker is installed, run npm install in the node container
+                    // Use Docker to run npm install in the specified directory
                     docker.image('node:18').inside {
-                        sh 'cd Client/frontend && npm install'  // Run npm install in the frontend directory
+                        sh '''
+                        cd Client/frontend
+                        npm install
+                        '''
                     }
                 }
             }
@@ -42,13 +57,13 @@ pipeline {
 
     post {
         always {
-            echo 'Install Dependencies stage finished!'
+            echo 'Pipeline finished running.'
         }
         success {
-            echo 'Install Dependencies succeeded!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Install Dependencies failed!'
+            echo 'Pipeline failed!'
         }
     }
 }
