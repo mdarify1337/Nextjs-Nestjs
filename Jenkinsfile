@@ -36,21 +36,6 @@ pipeline {
                 }
             }
         }
-        stage('Docker Build and Push') {
-            when {
-                branch 'main'
-            }
-            steps {
-                script {
-                    sh '''
-                    docker build -t my-app:latest -f Client/Dockerfile .
-                    docker tag my-app:latest my-dockerhub-username/my-app:latest
-                    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-                    docker push my-dockerhub-username/my-app:latest
-                    '''
-                }
-            }
-        }
     }
     post {
         always {
