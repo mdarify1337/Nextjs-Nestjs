@@ -16,10 +16,10 @@ pipeline {
                     if ! command -v docker &> /dev/null
                     then
                         echo "Docker not found, installing..."
-                        sudo apt-get update
-                        sudo apt-get install -y docker.io
-                        sudo systemctl enable docker
-                        sudo systemctl start docker
+                         apt-get update
+                         apt-get install -y docker.io
+                         systemctl enable docker
+                         systemctl start docker
                     else
                         echo "Docker is already installed"
                     fi
