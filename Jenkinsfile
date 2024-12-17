@@ -1,8 +1,10 @@
 pipeline {
     agent {
         docker {
-            image 'docker:24.0.6' // Official Docker image
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Allow access to Docker socket
+            // image 'docker:24.0.6' // Official Docker image
+            // args '-v /var/run/docker.sock:/var/run/docker.sock'
+            // Allow access to Docker socket
+            echo 'succes access'
         }
     }
 
