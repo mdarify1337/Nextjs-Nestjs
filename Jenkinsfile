@@ -1,37 +1,11 @@
 pipeline {
     agent any
-    environment {
-        FRONTEND_DIR = "Client/frontend"
-    }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 script {
                     docker.image('node:18').inside {
-                        sh "cd ${env.FRONTEND_DIR} && npm install"
-                    }
-                }
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                script {
-                    docker.image('node:18').inside {
-                        sh "cd ${env.FRONTEND_DIR} && npm test"
-                    }
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                script {
-                    docker.image('node:18').inside {
-                        sh "cd ${env.FRONTEND_DIR} && npm run build"
+                        sh "cd /home/ael/Desktop/newp/Client/frontend && npm install"
                     }
                 }
             }
@@ -39,13 +13,13 @@ pipeline {
     }
     post {
         always {
-            echo 'Pipeline finished!'
+            echo 'Install Dependencies stage finished!'
         }
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Install Dependencies succeeded!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Install Dependencies failed!'
         }
     }
 }
