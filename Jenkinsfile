@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     docker.image('node:18').inside {
-                        sh "cd /home/ael/Desktop/newp/Client/frontend && npm install"
+                        sh "cd Client/frontend && npm install"
                     }
                 }
             }
