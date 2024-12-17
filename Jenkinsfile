@@ -1,12 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18' // Node.js Docker image
-            args '-u root:root' // Run as root to avoid permission issues
-        }
-    }
+    agent any
     environment {
-        FRONTEND_DIR = "Client/frontend" // Path to your frontend directory
+        FRONTEND_DIR = "Client/frontend"
     }
     stages {
         stage('Checkout') {
@@ -16,22 +11,28 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                dir(env.FRONTEND_DIR) {
-                    sh 'npm install'
+                script {
+                    docker.image('node:18').inside {
+                        sh "cd ${env.FRONTEND_DIR} && npm install"
+                    }
                 }
             }
         }
         stage('Run Tests') {
             steps {
-                dir(env.FRONTEND_DIR) {
-                    sh 'npm test' // Adjust based on your test script in package.json
+                script {
+                    docker.image('node:18').inside {
+                        sh "cd ${env.FRONTEND_DIR} && npm test"
+                    }
                 }
             }
         }
         stage('Build') {
             steps {
-                dir(env.FRONTEND_DIR) {
-                    sh 'npm run build' // Adjust based on your build script in package.json
+                script {
+                    docker.image('node:18').inside {
+                        sh "cd ${env.FRONTEND_DIR} && npm run build"
+                    }
                 }
             }
         }
