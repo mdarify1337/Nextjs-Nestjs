@@ -25,6 +25,7 @@ pipeline {
                 sh '''
                     echo 'test front end'
                     pwd
+                    ls
                 '''
             }
         }
@@ -40,6 +41,7 @@ pipeline {
                 sh '''
                     echo 'test back end'
                     pwd
+                    ls
                 '''
             }
         }
