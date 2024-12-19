@@ -22,7 +22,10 @@ pipeline {
 
         stage('Test Frontend') {
             steps {
-                echo 'test front end'
+                sh '''
+                    echo 'test front end'
+                    pwd
+                '''
             }
         }
 
@@ -34,7 +37,10 @@ pipeline {
 
         stage('Test Backend') {
             steps {
-                echo 'test back end'
+                sh '''
+                    echo 'test back end'
+                    pwd
+                '''
             }
         }
     }
