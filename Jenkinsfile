@@ -29,6 +29,7 @@ pipeline {
                     cd Client/frontend
                     pwd
                     ls
+                    npm install
                 '''
             }
         }
@@ -48,6 +49,7 @@ pipeline {
                     cd Server/backend
                     pwd
                     ls
+                    npm install
                 '''
             }
         }
