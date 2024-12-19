@@ -26,6 +26,9 @@ pipeline {
                     echo 'test front end'
                     pwd
                     ls
+                    cd Client/frontend
+                    pwd
+                    ls
                 '''
             }
         }
@@ -40,6 +43,9 @@ pipeline {
             steps {
                 sh '''
                     echo 'test back end'
+                    pwd
+                    ls
+                    cd Server/backend
                     pwd
                     ls
                 '''
