@@ -7,6 +7,26 @@ pipeline {
                 checkout scm
             }
         }
+        
+        stage('Install Docker') {
+            steps {
+                script {
+                    sh '''
+                    # Check if Docker is installed
+                    if ! command -v docker &> /dev/null; then
+                        echo "Docker not found, installing..."
+                        apt-get update -y
+                        apt-get install -y docker.io
+                        systemctl start docker
+                        systemctl enable docker
+                        echo "Docker installed successfully."
+                    else
+                        echo "Docker is already installed."
+                    fi
+                    '''
+                }
+            }
+        }
 
         stage('Build Frontend') {
             steps {
