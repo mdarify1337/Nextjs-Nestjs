@@ -5,8 +5,8 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh 'node --version'
-        echo 'node --vesrion'
+        sh 'node --version'  // Executes and outputs Node.js version
+        echo 'node --version' // Displays the correct command text
       }
     }
   }
