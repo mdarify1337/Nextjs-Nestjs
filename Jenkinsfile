@@ -32,7 +32,8 @@ pipeline {
                     # Check if npm is installed
                     if ! command -v npm &> /dev/null; then
                         echo "npm is not installed. Installing npm..."
-                        apt-get update && apt-get install -y npm
+                        apt-get update 
+                        apt-get install -y npm
                     else
                         echo "npm is already installed."
                     fi
