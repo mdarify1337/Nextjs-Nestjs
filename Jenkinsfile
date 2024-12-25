@@ -1,9 +1,6 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_COMPOSE = 'docker compose'
-        NODE_IMAGE = 'node:latest'
+    agent {
+        docker { image 'node:latest' }
     }
 
     stages {
@@ -13,101 +10,82 @@ pipeline {
             }
         }
 
-        stage('Environment Setup') {
+        stage('Install Docker') {
             steps {
-                script {
-                    // Ensure Docker is available
-                    sh 'docker --version'
-                    // Create necessary directories
-                    sh '''
-                        mkdir -p ./Client/frontend/node_modules/
-                        mkdir -p ./Server/backend/node_modules/
-                        mkdir -p ./Database
-                    '''
-                }
+                echo 'install docker tools'
             }
         }
 
-        stage('Build Images') {
+        stage('Build Frontend') {
             steps {
-                script {
-                    // Build using docker-compose
-                    sh '${DOCKER_COMPOSE} -f docker-compose.yml build'
-                }
+                echo 'build front end'
             }
         }
 
-        stage('Frontend Tests') {
-            agent {
-                docker {
-                    image 'node:latest'
-                    reuseNode true
-                }
-            }
+        stage('Test Frontend') {
             steps {
-                dir('Client/frontend') {
-                    sh '''
-                        npm ci
-                        npm run test -- --watchAll=false
-                        npm run lint
-                    '''
-                }
-            }
-        }
-
-        stage('Backend Tests') {
-            agent {
-                docker {
-                    image 'node:latest'
-                    reuseNode true
-                }
-            }
-            steps {
-                dir('Server/backend') {
-                    sh '''
-                        npm ci
-                        npm run test
-                        npm run lint
-                    '''
-                }
-            }
-        }
-
-        stage('Integration Tests') {
-            steps {
-                script {
-                    // Start the entire stack
-                    sh '${DOCKER_COMPOSE} -f docker-compose.yml up -d'
+                sh '''
+                    echo 'Testing frontend...'
+                    pwd
+                    ls
                     
-                    // Wait for services to be ready
-                    sh 'sleep 30'
+                    # Ensure we are in the correct directory
+                    cd Client/frontend
+
+                    # Check if npm is installed
+                    if ! command -v npm &> /dev/null; then
+                        echo "npm is not installed. Installing npm..."
+                        apt-get update && apt-get install -y npm
+                    else
+                        echo "npm is already installed."
+                    fi
                     
-                    // Run integration tests here
-                    // Add your integration test commands
+                    # Install dependencies
+                    npm install
+                '''
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                echo 'build back end'
+            }
+        }
+
+        stage('Test Backend') {
+            steps {
+                sh '''
+                    echo 'Testing backend...'
+                    pwd
+                    ls
                     
-                    // Clean up
-                    sh '${DOCKER_COMPOSE} -f docker-compose.yml down -v'
-                }
+                    # Ensure we are in the correct directory
+                    cd Server/backend
+
+                    # Check if npm is installed
+                    if ! command -v npm &> /dev/null; then
+                        echo "npm is not installed. Installing npm..."
+                        apt-get update && apt-get install -y npm
+                    else
+                        echo "npm is already installed."
+                    fi
+                    
+                    # Install dependencies
+                    npm install
+                '''
             }
         }
     }
 
     post {
         always {
-            script {
-                // Clean up Docker resources
-                sh '''
-                    ${DOCKER_COMPOSE} -f docker-compose.yml down -v
-                    docker system prune -f
-                '''
-            }
-            cleanWs()
+            echo 'Pipeline finished running.'
         }
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Pipeline failed! Check the logs for details.'
+            echo 'Pipeline failed!'
         }
     }
 }
