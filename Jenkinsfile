@@ -1,5 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    
+    environment {
+        DOCKER_HOST = 'unix:///var/run/docker.sock'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -7,67 +17,33 @@ pipeline {
             }
         }
 
-        stage('Install Docker') {
+        stage('Frontend Tests') {
             steps {
-                echo 'install docker tools'
+                dir('Client/frontend') {
+                    sh '''
+                        npm ci
+                        npm run test -- --watchAll=false --ci
+                    '''
+                }
             }
         }
 
-        stage('Build Frontend') {
+        stage('Backend Tests') {
             steps {
-                echo 'build front end'
-            }
-        }
-
-        stage('Test Frontend') {
-            steps {
-                sh '''
-                    echo 'Testing frontend...'
-                    pwd
-                    ls
-                    apt-get update 
-                    apt-get install -y npm
-                    # Ensure we are in the correct directory
-                    cd Client/frontend
-                    # Install dependencies
-                    npm install
-                '''
-            }
-        }
-
-        stage('Build Backend') {
-            steps {
-                echo 'build back end'
-            }
-        }
-
-        stage('Test Backend') {
-            steps {
-                sh '''
-                    echo 'Testing backend...'
-                    pwd
-                    ls
-                    
-                    apt-get update 
-                    apt-get install -y npm
-                    # Ensure we are in the correct directory
-                    cd Server/backend
-                    # Install dependencies
-                    npm install
-                '''
+                dir('Server/backend') {
+                    sh '''
+                        npm ci
+                        npm run test
+                    '''
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished running.'
-        }
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed!'
+            junit '**/junit.xml'
+            cleanWs()
         }
     }
 }
