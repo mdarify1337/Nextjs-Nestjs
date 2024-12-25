@@ -25,19 +25,10 @@ pipeline {
                     echo 'Testing frontend...'
                     pwd
                     ls
-                    
+                    apt-get update 
+                    apt-get install -y npm
                     # Ensure we are in the correct directory
                     cd Client/frontend
-
-                    # Check if npm is installed
-                    if ! command -v npm &> /dev/null; then
-                        echo "npm is not installed. Installing npm..."
-                        apt-get update 
-                        apt-get install -y npm
-                    else
-                        echo "npm is already installed."
-                    fi
-                    
                     # Install dependencies
                     npm install
                 '''
@@ -57,17 +48,10 @@ pipeline {
                     pwd
                     ls
                     
+                    apt-get update 
+                    apt-get install -y npm
                     # Ensure we are in the correct directory
                     cd Server/backend
-
-                    # Check if npm is installed
-                    if ! command -v npm &> /dev/null; then
-                        echo "npm is not installed. Installing npm..."
-                        apt-get update && apt-get install -y npm
-                    else
-                        echo "npm is already installed."
-                    fi
-                    
                     # Install dependencies
                     npm install
                 '''
