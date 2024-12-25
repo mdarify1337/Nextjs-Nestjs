@@ -1,3 +1,2 @@
 FROM node:latest
-
-RUN apk add -U git curl
+RUN apt-get update && apt-get install -y npm
