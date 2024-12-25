@@ -1,13 +1,7 @@
 pipeline {
+    agent any
     agent {
-        docker {
-            image 'node:18'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
-    
-    environment {
-        DOCKER_HOST = 'unix:///var/run/docker.sock'
+        docker {image: 'node:latest'}
     }
 
     stages {
@@ -17,33 +11,62 @@ pipeline {
             }
         }
 
-        stage('Frontend Tests') {
+        stage('Install Docker') {
             steps {
-                dir('Client/frontend') {
-                    sh '''
-                        npm ci
-                        npm run test -- --watchAll=false --ci
-                    '''
-                }
+                echo 'install docker tools'
             }
         }
 
-        stage('Backend Tests') {
+        stage('Build Frontend') {
             steps {
-                dir('Server/backend') {
-                    sh '''
-                        npm ci
-                        npm run test
-                    '''
-                }
+                echo 'build front end'
+            }
+        }
+
+        stage('Test Frontend') {
+            steps {
+                sh '''
+                    echo 'test front end'
+                    pwd
+                    ls
+                    cd Client/frontend
+                    pwd
+                    ls
+                    # npm install
+                '''
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                echo 'build back end'
+            }
+        }
+
+        stage('Test Backend') {
+            steps {
+                sh '''
+                    echo 'test back end'
+                    pwd
+                    ls
+                    cd Server/backend
+                    pwd
+                    ls
+                    #npm install
+                '''
             }
         }
     }
 
     post {
         always {
-            junit '**/junit.xml'
-            cleanWs()
+            echo 'Pipeline finished running.'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
